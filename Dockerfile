@@ -17,4 +17,5 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
 COPY . /usr/src/app
 
 # Install dependencies
+RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
