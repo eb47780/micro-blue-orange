@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app:
     build: .
-    container_name: micro-blue-orange-app
+    container_name: "micro-blue-orange-app"
     working_dir: /usr/src/app
     entrypoint: ./docker/app-entrypoint.sh
     volumes:
