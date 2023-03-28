@@ -13,6 +13,21 @@ services:
     networks:
       - default
 
+  database:
+    container_name: "micro-blue-orange-database"
+    image: library/postgres:14.7-alpine
+    ports: 
+      - "5431:5432"
+    volumes: 
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=microblueorange
+      - POSTGRES_PASSWORD=microblueorange
+      - POSTGRES_DB=microblueorange_database
+    restart: always
+    networks:
+      - default
+
   adminer:
     container_name: adminer-container
     image: adminer
@@ -21,6 +36,9 @@ services:
     restart: always
     networks: 
       - default
+
+volumes:
+  postgres:
 
 networks:
   default:
