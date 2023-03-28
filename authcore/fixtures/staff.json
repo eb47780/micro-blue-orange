@@ -1,0 +1,20 @@
+[
+  {
+    "model": "authcore.user",
+    "pk": "e5182812-d1b0-4585-99bf-6510497601ab",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "Endrit",
+      "last_name": "Berisha",
+      "email": "endritberisha@microblueorange.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-01-01T00:00:00.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

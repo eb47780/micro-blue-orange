@@ -48,7 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+     #services
+    'administration',
     'authcore',
+     #fixtures
+     'fixtures',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +112,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'authcore.User'
 
+AUTHENTICATION_BACKENDS = (
+    'administration.backends.AdminBackend',
+)
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
