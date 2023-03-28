@@ -1,0 +1,27 @@
+version: "3.9.6"
+
+services:
+  app:
+    build: .
+    container_name: micro-blue-orange-app
+    working_dir: /usr/src/app
+    entrypoint: ./docker/app-entrypoint.sh
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    networks:
+      - default
+
+  adminer:
+    container_name: adminer-container
+    image: adminer
+    ports:
+      - 8080:8080
+    restart: always
+    networks: 
+      - default
+
+networks:
+  default:
+    driver: bridge
