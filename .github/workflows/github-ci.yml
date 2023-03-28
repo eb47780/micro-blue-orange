@@ -8,14 +8,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
-    - name: docker run
+    - name: Docker test build 
       run: |
         docker-compose up -d
     
-    - name: Test container database
+    - name: Docker test database
       run: |
         docker run --network container:micro-blue-orange-database jwilder/dockerize -wait tcp://micro-blue-orange-database:5432 -timeout 500s -wait-retry-interval 5s
 
-    - name: Test container app
+    - name: Docker test backend
       run: |
         docker run --network container:micro-blue-orange-app jwilder/dockerize -wait tcp://micro-blue-orange-app:8000 -timeout 500s -wait-retry-interval 5s
