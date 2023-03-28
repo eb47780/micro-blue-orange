@@ -8,4 +8,7 @@ fi
 
 dockerize -wait tcp://database:5432 -timeout 2700s -wait-retry-interval 10s
 
+python manage.py makemigrations
+python manage.py migrate
+python manage.py loaddata staff 
 python manage.py runserver 0.0.0.0:8000
