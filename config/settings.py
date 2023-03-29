@@ -51,6 +51,8 @@ INSTALLED_APPS = [
      #services
     'administration',
     'authcore',
+    'core',
+    'common',
      #fixtures
      'fixtures',
 ]
