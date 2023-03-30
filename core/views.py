@@ -17,16 +17,17 @@ class ApiRoot(APIView):
 
     def get(self, request, *args, **kwargs):
         data = {
-            'clients': reverse(ClientListView.name, request= request)
+            'clients': reverse(ClientListCreateView.name, request= request),
+            'address': reverse(AddressListCreateView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
     
-class ClientListView(CreateAPIView):
+class ClientListCreateView(CreateAPIView):
     name = 'client-list'
     queryset = Customer.objects.get_queryset()
     serializer_class = ClientSerializer
 
-class ClientDetail(RetrieveUpdateAPIView):
+class ClientDetailUpdate(RetrieveUpdateAPIView):
     name = 'client-detail'
     queryset = Customer.objects.get_queryset()
     serializer_class = ClientSerializer
@@ -34,3 +35,21 @@ class ClientDetail(RetrieveUpdateAPIView):
 
 class TokenObtainPairView(TokenObtainPairView):
     serializer_class = TokenObtainPairSerializer
+
+class AddressListCreateView(ListCreateAPIView):
+    name = 'address-list-create-view'
+    queryset = Address.objects.get_queryset()
+    serializer_class = AddressSerializer
+
+    def list(self, request, *args, **kwargs):
+        current_user = request.user
+        address = Address.objects.filter(customer=current_user.id)
+        address_serializer = AddressSerializer(address, many=True)
+        return Response(address_serializer.data, status.HTTP_200_OK)
+    
+class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    name = 'address-detail-update-destroy'
+    queryset = Address.objects.get_queryset()
+    serializer_class  = AddressSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated, IsAddressOwnerDetail]
+     

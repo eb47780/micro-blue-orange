@@ -32,3 +32,27 @@ class TokenObtainPairSerializer(TokenObtainPairSerializer):
         data['username'] = self.user.username
         data['email'] = self.user.email
         return data
+    
+class AddressSerializer(serializers.ModelSerializer):
+    customer = serializers.CharField(write_only=True)
+    
+    class Meta:
+        model = Address
+        fields = ['id', 'customer', 'street', 'street_number', 'city', 'zipcode']
+        read_only_fields = ['customer']
+
+    def create(self, validated_data):
+        user_id = validated_data.pop('customer')
+        customer = Customer.objects.get(id=user_id)
+        return Address.objects.create(customer=customer, **validated_data)
+    
+    def update(self, instance, validated_data):
+        user_id = validated_data.pop('customer')
+        if not Customer.objects.filter(id=user_id).exists():
+            raise serializers.ValidationError('Validation Error: Customer does not exist')
+        instance.street = validated_data.get('street', instance.street)
+        instance.street_number = validated_data.get('street_number', instance.street_number)
+        instance.city = validated_data.get('city', instance.city)
+        instance.zipcode = validated_data.get('zipcode', instance.zipcode)
+        instance.save()
+        return instance
