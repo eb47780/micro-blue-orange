@@ -1,11 +1,8 @@
-from django.contrib.admin import *
+from django.contrib import admin
 from django.contrib.auth.forms import AuthenticationForm
 
-# Models
-from core.models import *
 
-# Create Admin Site
-class AdminSite(AdminSite):
+class AdminSite(admin.AdminSite):
     site_header = 'Admin Owner'
     site_title = 'Admin Owner'
     index_title = 'Welcome Admin Owner'
