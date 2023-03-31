@@ -14,7 +14,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     class Meta:
-        verbose_name = 'User Authentications'
+        verbose_name = 'User Authentication'
 
 # User client model
 class UserClient(User):

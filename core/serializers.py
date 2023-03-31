@@ -60,3 +60,20 @@ class AddressSerializer(serializers.ModelSerializer):
         instance.zipcode = validated_data.get('zipcode', instance.zipcode)
         instance.save()
         return instance
+    
+# Category Serializer
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+# Product Serializer    
+class ProductSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+    def get_image_url(self, obj):
+        return obj.image.url
