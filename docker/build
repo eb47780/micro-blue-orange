@@ -63,7 +63,7 @@ fi
 
 if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
 
-  echo "Starting to Setup Blue Orange Server..."
+  echo "Starting to build Blue Orange Server..."
   echo "Please stand by..."
   sleep 5
   
