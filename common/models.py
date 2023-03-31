@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 
-# Fields with created and updated dates 
+
 class AutoCreateUpdateMixin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -9,7 +9,7 @@ class AutoCreateUpdateMixin(models.Model):
     class Meta:
         abstract = True
 
-# Base customer model
+
 class BaseCustomer(AutoCreateUpdateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=255, verbose_name='name')
