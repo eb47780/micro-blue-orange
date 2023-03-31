@@ -18,4 +18,12 @@ urlpatterns = [
     # api client address
     path('api/address/v1', AddressListCreateView.as_view(), name=AddressListCreateView.name),
     path('api/address/<str:pk>', AddressDetailUpdateDestroy.as_view(), name=AddressDetailUpdateDestroy.name),
+
+    # api products
+    path('api/products/v1', ProductListView.as_view(), name=ProductListView.name),
+    path('api/product/<str:pk>', ProductDetail.as_view(), name=ProductDetail.name),
+
+    # api categories
+    path('api/categories/v1', CategoryListView.as_view(), name=CategoryListView.name),
+    path('api/category/<str:pk>', CategoryDetail.as_view(), name=CategoryDetail.name),
 ]
