@@ -2,11 +2,10 @@
 
 <p align="center">
 
-  <a href="https://github.com/endritber">
-      ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/endritber/micro-blue-orange/github-ci.yml)
-  </a>
+  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/endritber/micro-blue-orange/github-ci.yml">
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
+</p>
 
-  <img alt="AppVeyor" src="https://img.shields.io/appveyor/build/endritber/micro-blue-orange?style=plastic">
 
 ## Technologies used in backend side
 * [Docker](https://www.docker.com/)
@@ -17,6 +16,6 @@
 * [Django](https://www.djangoproject.com/)
 
 ## License
-This project is under the MIT license.
----
+This project is under the MIT license. See the [LICENSE](LICENSE.md) for more information.
 
+---
