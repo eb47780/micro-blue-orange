@@ -2,7 +2,9 @@ from django.urls import path, include
 import views
 from rest_framework_simplejwt import views as jwt_views
 
+app_name = 'core'
 
+# Create your urls here.
 urlpatterns = [
     # Root API
     path('', views.ApiRoot.as_view(), name=views.ApiRoot.name),
