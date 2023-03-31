@@ -162,8 +162,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# JWT CONFIGURATION
+MEDIA_ROOT = '/vol/web/media'
+STATIC_ROOT = '/vol/web/static'
+MEDIA_BASE_PATH = 'uploads'
 
+# JWT CONFIGURATION
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(hours=1),
