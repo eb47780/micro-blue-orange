@@ -23,12 +23,12 @@ class ApiRoot(APIView):
         return Response(data, status=status.HTTP_200_OK)
     
 class ClientListCreateView(CreateAPIView):
-    name = 'client-list'
+    name = 'client-list-create-view'
     queryset = Customer.objects.get_queryset()
     serializer_class = ClientSerializer
 
 class ClientDetailUpdate(RetrieveUpdateAPIView):
-    name = 'client-detail'
+    name = 'client-detail-update'
     queryset = Customer.objects.get_queryset()
     serializer_class = ClientSerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated, IsClientOwner]

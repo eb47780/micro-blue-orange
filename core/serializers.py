@@ -15,7 +15,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         if Customer.objects.filter(email=validated_data['email']).exists():
-            raise serializers.ValidationError("Validation Error: Email already exists")
+            raise serializers.ValidationError({"detail": "User email already exists"})
         
         user_data = validated_data.pop('authcore')['user']
         user_data['username'] = validated_data['name']
@@ -43,13 +43,16 @@ class AddressSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_id = validated_data.pop('customer')
+        if Address.objects.filter(customer=user_id).exists():
+            raise serializers.ValidationError({'detail': 'Address already exists'})
         customer = Customer.objects.get(id=user_id)
         return Address.objects.create(customer=customer, **validated_data)
     
     def update(self, instance, validated_data):
         user_id = validated_data.pop('customer')
         if not Customer.objects.filter(id=user_id).exists():
-            raise serializers.ValidationError('Validation Error: Customer does not exist')
+            raise serializers.ValidationError({"detail": "No user found"})
+        
         instance.street = validated_data.get('street', instance.street)
         instance.street_number = validated_data.get('street_number', instance.street_number)
         instance.city = validated_data.get('city', instance.city)
