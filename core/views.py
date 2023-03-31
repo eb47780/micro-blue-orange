@@ -1,6 +1,6 @@
-import models
-import serializers
-import permissions
+import core.models as models
+import core.serializers as serializers
+import core.permissions as permissions
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework import status
@@ -40,7 +40,7 @@ class TokenObtainPairView(TokenObtainPairView):
     serializer_class = serializers.TokenObtainPairSerializer
 
 
-class AddressListCreateView(generics.istCreateAPIView):
+class AddressListCreateView(generics.ListCreateAPIView):
     name = 'address-list-create-view'
     queryset = models.Address.objects.get_queryset()
     serializer_class = serializers.AddressSerializer

@@ -1,5 +1,5 @@
 from administration.admin import admin_site
-import models
+import core.models as models
 
 
 admin_site.register(models.Customer)

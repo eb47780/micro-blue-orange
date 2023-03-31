@@ -1,5 +1,5 @@
 from django.urls import path, include
-import views
+import core.views as views
 from rest_framework_simplejwt import views as jwt_views
 
 app_name = 'core'

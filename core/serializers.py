@@ -1,4 +1,4 @@
-import models
+import core.models as models
 from authcore.models import UserClient
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
