@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
     
     - name: Build Docker
       run: |
@@ -18,4 +19,5 @@ jobs:
 
     - name: Flake8
       run: |
+        pip install flake8
         ./flake8
