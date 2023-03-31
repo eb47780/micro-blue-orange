@@ -5,6 +5,6 @@ set +e
 echo '########################'
 echo 'BEGIN: docker-compose up'
 echo '########################'
-echo 'View Micro Blue Orange Backend at'
+echo 'View Blue Orange Server at'
 echo 'http://localhost:8000/'
 docker-compose up

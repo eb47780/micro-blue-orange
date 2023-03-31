@@ -63,7 +63,8 @@ fi
 
 if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
 
-  echo "Setup can take some minutes. Please stand by..."
+  echo "Starting to Setup Blue Orange Server..."
+  echo "Please stand by..."
   sleep 5
   
   DATE=`date +%Y%m%d-%H%M%S-%3N`

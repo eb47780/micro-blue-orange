@@ -1,10 +1,11 @@
+# Models
 from .models import *
 from authcore.models import UserClient
 
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-# Create your serializers here.
+# Client serializer
 class ClientSerializer(serializers.ModelSerializer):
     password = serializers.CharField(source='authcore.user.password', write_only=True)
     email = serializers.EmailField()
@@ -16,7 +17,6 @@ class ClientSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         if Customer.objects.filter(email=validated_data['email']).exists():
             raise serializers.ValidationError({"detail": "User email already exists"})
-        
         user_data = validated_data.pop('authcore')['user']
         user_data['username'] = validated_data['name']
         user_data['email'] = validated_data['email']
@@ -24,6 +24,7 @@ class ClientSerializer(serializers.ModelSerializer):
         customer = Customer.objects.create(id = user_client.id, user = user_client, **validated_data)
         return customer
     
+# Token obtainer
 class TokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
@@ -33,6 +34,7 @@ class TokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         return data
     
+# Address Serializers
 class AddressSerializer(serializers.ModelSerializer):
     customer = serializers.CharField(write_only=True)
     
@@ -52,7 +54,6 @@ class AddressSerializer(serializers.ModelSerializer):
         user_id = validated_data.pop('customer')
         if not Customer.objects.filter(id=user_id).exists():
             raise serializers.ValidationError({"detail": "No user found"})
-        
         instance.street = validated_data.get('street', instance.street)
         instance.street_number = validated_data.get('street_number', instance.street_number)
         instance.city = validated_data.get('city', instance.city)

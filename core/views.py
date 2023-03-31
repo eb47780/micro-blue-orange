@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .models import Customer
 from .serializers import *
 from .permissions import *
@@ -11,7 +10,7 @@ from rest_framework.generics import *
 from rest_framework import permissions as rest_framework_permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-# Create your views here.
+# A Base Api Root for faster purposes
 class ApiRoot(APIView):
     name = 'api-root'
 
@@ -21,7 +20,8 @@ class ApiRoot(APIView):
             'address': reverse(AddressListCreateView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
-    
+
+# Client Controller    
 class ClientListCreateView(CreateAPIView):
     name = 'client-list-create-view'
     queryset = Customer.objects.get_queryset()
@@ -33,9 +33,11 @@ class ClientDetailUpdate(RetrieveUpdateAPIView):
     serializer_class = ClientSerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated, IsClientOwner]
 
+# Token Controller
 class TokenObtainPairView(TokenObtainPairView):
     serializer_class = TokenObtainPairSerializer
 
+# Address Controller
 class AddressListCreateView(ListCreateAPIView):
     name = 'address-list-create-view'
     queryset = Address.objects.get_queryset()
