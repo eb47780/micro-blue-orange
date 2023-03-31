@@ -3,6 +3,8 @@ from .views import *
 
 from rest_framework_simplejwt import views as jwt_views
 
+app_name = 'core'
+
 # Create your urls here.
 urlpatterns = [
     #root api
