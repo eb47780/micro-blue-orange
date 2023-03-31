@@ -17,7 +17,9 @@ class ApiRoot(APIView):
     def get(self, request, *args, **kwargs):
         data = {
             'clients': reverse(ClientListCreateView.name, request= request),
-            'address': reverse(AddressListCreateView.name, request=request)
+            'address': reverse(AddressListCreateView.name, request=request),
+            'products': reverse(ProductListView.name, request=request),
+            'cateogories': reverse(CategoryListView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -54,4 +56,26 @@ class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Address.objects.get_queryset()
     serializer_class  = AddressSerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated, IsAddressOwnerDetail]
+
+# Category Controller
+class CategoryListView(ListAPIView):
+    name = 'category=list-view'
+    queryset = Category.objects.get_queryset()
+    serializer_class = CategorySerializer
+
+class CategoryDetail(RetrieveAPIView):
+    name = 'category-detail'
+    queryset = Category.objects.get_queryset()
+    serializer_class = CategorySerializer
+
+# Product Controller
+class ProductListView(ListAPIView):
+    name = 'product-list-view'
+    queryset = Product.objects.get_queryset()
+    serializer_class = ProductSerializer
+
+class ProductDetail(RetrieveAPIView):
+    name = 'product-detail'
+    queryset = Product.objects.get_queryset()
+    serializer_class = ProductSerializer
      
