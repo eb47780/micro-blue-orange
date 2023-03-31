@@ -1,9 +1,10 @@
 from django.contrib.admin import *
 from django.contrib.auth.forms import AuthenticationForm
 
+# Models
 from core.models import *
 
-# Register your models here.
+# Create Admin Site
 class AdminSite(AdminSite):
     site_header = 'Admin Owner'
     site_title = 'Admin Owner'
