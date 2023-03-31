@@ -5,31 +5,32 @@ from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import generics
+from rest_framework.generics import *
 from rest_framework import permissions as rest_framework_permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class ApiRoot(APIView):
     name = 'api-root'
+    BASE_REVERSE = "core:"
 
     def get(self, request, *args, **kwargs):
         data = {
-            'clients': reverse(ClientListCreateView.name, request=request),
-            'address': reverse(AddressListCreateView.name, request=request),
-            'products': reverse(ProductListView.name, request=request),
-            'cateogories': reverse(CategoryListView.name, request=request)
+            'clients': reverse(ApiRoot.BASE_REVERSE+ClientListCreateView.name, request=request),
+            'address': reverse(ApiRoot.BASE_REVERSE+AddressListCreateView.name, request=request),
+            'products': reverse(ApiRoot.BASE_REVERSE+ProductListView.name, request=request),
+            'cateogories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
 
 
-class ClientListCreateView(generics.CreateAPIView):
+class ClientListCreateView(CreateAPIView):
     name = 'client-list-create-view'
     queryset = models.Customer.objects.get_queryset()
     serializer_class = serializers.ClientSerializer
 
 
-class ClientDetailUpdate(generics.RetrieveUpdateAPIView):
+class ClientDetailUpdate(RetrieveUpdateAPIView):
     name = 'client-detail-update'
     queryset = models.Customer.objects.get_queryset()
     serializer_class = serializers.ClientSerializer
@@ -40,7 +41,7 @@ class TokenObtainPairView(TokenObtainPairView):
     serializer_class = serializers.TokenObtainPairSerializer
 
 
-class AddressListCreateView(generics.ListCreateAPIView):
+class AddressListCreateView(ListCreateAPIView):
     name = 'address-list-create-view'
     queryset = models.Address.objects.get_queryset()
     serializer_class = serializers.AddressSerializer
@@ -52,32 +53,32 @@ class AddressListCreateView(generics.ListCreateAPIView):
         return Response(address_serializer.data, status.HTTP_200_OK)
 
 
-class AddressDetailUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
     name = 'address-detail-update-destroy'
     queryset = models.Address.objects.get_queryset()
     serializer_class = serializers.AddressSerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.IsAddressOwnerDetail]
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryListView(ListAPIView):
     name = 'category=list-view'
     queryset = models.Category.objects.get_queryset()
     serializer_class = serializers.CategorySerializer
 
 
-class CategoryDetail(generics.RetrieveAPIView):
+class CategoryDetail(RetrieveAPIView):
     name = 'category-detail'
     queryset = models.Category.objects.get_queryset()
     serializer_class = serializers.CategorySerializer
 
 
-class ProductListView(generics.ListAPIView):
+class ProductListView(ListAPIView):
     name = 'product-list-view'
     queryset = models.Product.objects.get_queryset()
     serializer_class = serializers.ProductSerializer
 
 
-class ProductDetail(generics.RetrieveAPIView):
+class ProductDetail(RetrieveAPIView):
     name = 'product-detail'
     queryset = models.Product.objects.get_queryset()
     serializer_class = serializers.ProductSerializer
