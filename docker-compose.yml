@@ -12,6 +12,20 @@ services:
       - "8000:8000"
     depends_on:
       - database
+      - rabbitmq
+    networks:
+      - default
+  
+  worker:
+    build: .
+    container_name: "micro-blue-orange-worker"
+    restart: on-failure
+    entrypoint: ./docker/worker-entrypoint.sh
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - app
+      - database
     networks:
       - default
 
@@ -29,6 +43,21 @@ services:
     restart: always
     networks:
       - default
+  
+  rabbitmq:
+    image: 'rabbitmq:3.11-management-alpine'
+    container_name: "micro-blue-orange-rabbitmq"
+    hostname: rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq/mnesia
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - default
 
   adminer:
     container_name: adminer-container
@@ -41,6 +70,7 @@ services:
 
 volumes:
   postgres:
+  rabbitmq:
 
 networks:
   default:

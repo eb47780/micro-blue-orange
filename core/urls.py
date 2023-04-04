@@ -27,4 +27,20 @@ urlpatterns = [
     # api categories
     path('api/categories/v1', CategoryListView.as_view(), name=CategoryListView.name),
     path('api/category/<str:pk>', CategoryDetail.as_view(), name=CategoryDetail.name),
+
+    # api status
+    path('api/status', StatusListView.as_view(), name=StatusListView.name),
+    path('api/status/<str:pk>', StatusDetail.as_view(), name=StatusDetail.name),
+
+    # api payment
+    path('api/checkouts/v1', CheckoutListCreateView.as_view(), name=CheckoutListCreateView.name),
+    path('api/checkout/<str:pk>', CheckoutDetail.as_view(), name=CheckoutDetail.name),
+    path('api/checkoutitems/v1', CheckoutItemCreateView.as_view(), name=CheckoutItemCreateView.name),
+    path('api/checkoutitem/<str:pk>', CheckoutItemDetail.as_view(), name=CheckoutItemDetail.name),
+    path('api/paymentmethods', PaymentMethodListView.as_view(), name=PaymentMethodListView.name),
+    path('api/paymentgateways', PaymentGatewayListView.as_view(), name=PaymentGatewayListView.name),
+
+    # temporary
+    path("success/", SuccessView.as_view(), name="success"),
+    path("cancel/", CancelView.as_view(), name="cancel"),
 ]

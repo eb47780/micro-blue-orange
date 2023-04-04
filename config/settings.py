@@ -51,12 +51,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'polymorphic',
+    'corsheaders',
     'rest_framework',
     'administration',
     'authcore',
     'core',
     'common',
     'fixtures',
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +71,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'payment.middlewares.CheckPaymentMethodConfigMiddleware',
+    'payment.middlewares.CheckPaymentGatewayDefaultMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -74,7 +81,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,6 +165,13 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 MEDIA_BASE_PATH = 'uploads'
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+if not LOCAL:
+  CELERY_BROKER_URL = env('RABBITMQ_URI')
+else:
+  CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
 
 # JWT CONFIGURATION
 SIMPLE_JWT = {
