@@ -67,20 +67,18 @@ class PaymentConsumer(bootsteps.ConsumerStep):
 
     def handle_message(self, data, message):
         import logging
-        logger = logging.getLogger(__name__)
-        from payment.process_payment import proccess_payment_simulation
         from core.models import Checkout
-
-        try:
-            result = proccess_payment_simulation(
-                card_hash=data['card_hash'],
-                payment_method=data['payment_method']
-            )
+        from payment.process_payment import process_payment
+    
+        logger = logging.getLogger(__name__)
+        try: 
             with transaction.atomic():
-                checkout_id = data['checkout_id']
-                checkout = Checkout.objects.filter(id=checkout_id)
-                checkout.update(status='e2182812-d1b0-4585-99bf-6510497602ab', remote_id=result)
-                logging.info(f"Approved Purchase for {checkout_id}")
+                checkout = Checkout.objects.get(id=str(data['checkout_id']))
+                result = process_payment(validated_data=data)
+                print(result)
+                checkout.status_id = "e2182812-d1b0-4585-99bf-6510497602ab"
+                checkout.remote_id = 'no remote id for the moment'
+                checkout.save()
         except Exception as e:
             logger.exception(e)
 
