@@ -19,7 +19,7 @@ class ApiRoot(APIView):
             'clients': reverse(ApiRoot.BASE_REVERSE+ClientListCreateView.name, request=request),
             'address': reverse(ApiRoot.BASE_REVERSE+AddressListCreateView.name, request=request),
             'products': reverse(ApiRoot.BASE_REVERSE+ProductListView.name, request=request),
-            'cateogories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request)
+            'categories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
 
