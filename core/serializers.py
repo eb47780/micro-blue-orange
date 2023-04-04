@@ -127,6 +127,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
             with transaction.atomic():
                 items = list(validated_data.pop('items'))
                 checkout = models.Checkout.objects.create(**validated_data)
+                checkout.status.id = 'e1182812-d1b0-4585-99bf-6510497602ab'
                 checkout_items = []
                 for item in items:
                     item['checkout'] = checkout
