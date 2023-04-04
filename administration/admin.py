@@ -80,7 +80,6 @@ class PaymentMethodConfig(admin.ModelAdmin):
 @admin.register(StripeGateway, site=admin_site)
 class StripeGatewayAdmin(PolymorphicChildModelAdmin):
     base_model = PaymentGateway
-    show_in_index = True
 
 @admin.register(PaymentGateway, site=admin_site)
 class PaymentGatewayAdmin(PolymorphicParentModelAdmin):
