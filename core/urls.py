@@ -28,6 +28,10 @@ urlpatterns = [
     path('api/categories/v1', CategoryListView.as_view(), name=CategoryListView.name),
     path('api/category/<str:pk>', CategoryDetail.as_view(), name=CategoryDetail.name),
 
+    # api status
+    path('api/status', StatusListView.as_view(), name=StatusListView.name),
+    path('api/status/<str:pk>', StatusDetail.as_view(), name=StatusDetail.name),
+
     # api payment
     path('api/checkouts/v1', CheckoutListCreateView.as_view(), name=CheckoutListCreateView.name),
     path('api/checkout/<str:pk>', CheckoutDetail.as_view(), name=CheckoutDetail.name),

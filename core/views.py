@@ -21,7 +21,12 @@ class ApiRoot(APIView):
             'clients': reverse(ApiRoot.BASE_REVERSE+ClientListCreateView.name, request=request),
             'address': reverse(ApiRoot.BASE_REVERSE+AddressListCreateView.name, request=request),
             'products': reverse(ApiRoot.BASE_REVERSE+ProductListView.name, request=request),
-            'categories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request)
+            'categories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request),
+            "status": reverse(ApiRoot.BASE_REVERSE+StatusListView.name, request=request),
+            "checkouts": reverse(ApiRoot.BASE_REVERSE+CheckoutListCreateView.name, request=request),
+            "checkoutitems": reverse(ApiRoot.BASE_REVERSE+CheckoutItemCreateView.name, request=request),
+            "paymentmethods": reverse(ApiRoot.BASE_REVERSE+PaymentMethodListView.name, request=request),
+            "paymentgateways": reverse(ApiRoot.BASE_REVERSE+PaymentGatewayListView.name, request=request),
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -63,7 +68,7 @@ class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
 
 
 class CategoryListView(ListAPIView):
-    name = 'category=list-view'
+    name = 'category-list-view'
     queryset = models.Category.objects.get_queryset()
     serializer_class = serializers.CategorySerializer
 
@@ -86,6 +91,20 @@ class ProductDetail(RetrieveAPIView):
     serializer_class = serializers.ProductSerializer
 
 
+class StatusListView(ListAPIView):
+    name = 'status-list-view'
+    queryset = models.Status.objects.get_queryset()
+    serializer_class = serializers.StatusSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.ReadOnlyPermission]
+
+
+class StatusDetail(RetrieveAPIView):
+    name = 'status-detail'
+    queryset = models.Status.objects.get_queryset()
+    serializer_class = serializers.StatusDetailSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated]
+
+
 class CheckoutListCreateView(ListCreateAPIView):
     name = 'checkout-list-create-view'
     queryset = models.Checkout.objects.get_queryset()
@@ -102,7 +121,7 @@ class CheckoutListCreateView(ListCreateAPIView):
 class CheckoutDetail(RetrieveAPIView):
     name = 'checkout-detail'
     queryset = models.Checkout.objects.get_queryset()
-    serializer_class = serializers.CheckoutSerializer
+    serializer_class = serializers.CheckoutDetailSerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.IsCheckoutOwner]
 
 

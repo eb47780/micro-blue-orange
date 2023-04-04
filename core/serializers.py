@@ -131,7 +131,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
                 for item in items:
                     item['checkout'] = checkout
                     checkout_items.append(models.CheckoutItem(**item))
-                checkout.items = checkout.checkout_item.bulk_create(checkout_items)
+                checkout.items = checkout.checkout_items.bulk_create(checkout_items)
 
                 payload = {
                     'customer': ClientSerializer(validated_data['customer']).data['id'],
@@ -159,6 +159,7 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
         return obj.total
 
     def get_items(self, obj):
+        print(obj.checkout_items.all())
         return [{
             'title': check_item.product.title,
             'quantity': check_item.quantity,
