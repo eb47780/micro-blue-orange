@@ -26,7 +26,7 @@ app.autodiscover_tasks()
 
 ''' Setting up publisher'''
 def rabbitmq_conn():
-    return app.bool.acquire(block=True)
+    return app.pool.acquire(block=True)
 
 def rabbitmq_producer():
     return app.producer_pool.acquire(block=True)
@@ -60,12 +60,14 @@ class PaymentConsumer(bootsteps.ConsumerStep):
             kombu.Consumer(
               channel,
               queues=[queue],
-              callback=[self.handle_message],
+              callbacks=[self.handle_message],
               accept=['json']
             )
         ]
 
     def handle_message(self, data, message):
+        import logging
+        logger = logging.getLogger(__name__)
         from payment.process_payment import proccess_payment_simulation
         from core.models import Checkout
 
@@ -74,14 +76,12 @@ class PaymentConsumer(bootsteps.ConsumerStep):
                 card_hash=data['card_hash'],
                 payment_method=data['payment_method']
             )
+            print(result)
             with transaction.atomic():
-                checkout = Checkout.objects.get(id=str(data['checkout_id']))
-                checkout.status.id = 'e2182812-d1b0-4585-99bf-6510497602ab'
-                checkout.remote_id = result
-                checkout.save()
+                checkout_id = data['checkout_id']
+                checkout = Checkout.objects.filter(id=checkout_id)
+                checkout.update(status='e2182812-d1b0-4585-99bf-6510497602ab', remote_id=result)
         except Exception as e:
-            import logging
-            logger = logging.getLogger(__name__)
             logger.exception(e)
 
         message.ack()
