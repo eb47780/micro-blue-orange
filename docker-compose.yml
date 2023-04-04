@@ -12,6 +12,7 @@ services:
       - "8000:8000"
     depends_on:
       - database
+      - rabbitmq
     networks:
       - default
   
@@ -20,7 +21,7 @@ services:
     container_name: "micro-blue-orange-worker"
     restart: on-failure
     entrypoint: ./docker/worker-entrypoint.sh
-    volumnes:
+    volumes:
       - .:/usr/src/app
     depends_on:
       - app
@@ -44,7 +45,7 @@ services:
       - default
   
   rabbitmq:
-    image: 'rabbitmq:latest-alpine'
+    image: 'rabbitmq:3.11-management-alpine'
     container_name: "micro-blue-orange-rabbitmq"
     hostname: rabbitmq
     ports:
