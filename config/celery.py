@@ -69,9 +69,9 @@ class PaymentConsumer(bootsteps.ConsumerStep):
         import logging
         from core.models import Checkout
         from payment.process_payment import process_payment
-    
+
         logger = logging.getLogger(__name__)
-        try: 
+        try:
             with transaction.atomic():
                 checkout = Checkout.objects.get(id=str(data['checkout_id']))
                 result = process_payment(validated_data=data)
