@@ -163,7 +163,10 @@ MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 MEDIA_BASE_PATH = 'uploads'
 
-CELERY_BROKER_URL = env('RABBITMQ_URI')
+if not LOCAL:
+  CELERY_BROKER_URL = env('RABBITMQ_URI')
+else:
+  CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
 
 # JWT CONFIGURATION
 SIMPLE_JWT = {
