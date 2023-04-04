@@ -76,11 +76,11 @@ class PaymentConsumer(bootsteps.ConsumerStep):
                 card_hash=data['card_hash'],
                 payment_method=data['payment_method']
             )
-            print(result)
             with transaction.atomic():
                 checkout_id = data['checkout_id']
                 checkout = Checkout.objects.filter(id=checkout_id)
                 checkout.update(status='e2182812-d1b0-4585-99bf-6510497602ab', remote_id=result)
+                logging.info(f"Approved Purchase for {checkout_id}")
         except Exception as e:
             logger.exception(e)
 
