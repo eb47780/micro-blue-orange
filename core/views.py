@@ -1,6 +1,8 @@
 import core.models as models
 import core.serializers as serializers
 import core.permissions as permissions
+from payment.models import PaymentGateway
+from payment.serializers import PaymentGatewaySerializer
 from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework import status
@@ -82,3 +84,51 @@ class ProductDetail(RetrieveAPIView):
     name = 'product-detail'
     queryset = models.Product.objects.get_queryset()
     serializer_class = serializers.ProductSerializer
+
+
+class CheckoutListCreateView(ListCreateAPIView):
+    name = 'checkout-list-create-view'
+    queryset = models.Checkout.objects.get_queryset()
+    serializer_class = serializers.CheckoutSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        current_user = request.user
+        checkouts = models.Checkout.objects.filter(customer=current_user.id)
+        serializer_checkout = serializers.CheckoutDetailSerializer(checkouts, many=True)
+        return Response(serializer_checkout.data, status=status.HTTP_200_OK)
+
+
+class CheckoutDetail(RetrieveAPIView):
+    name = 'checkout-detail'
+    queryset = models.Checkout.objects.get_queryset()
+    serializer_class = serializers.CheckoutSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.IsCheckoutOwner]
+
+
+class CheckoutItemCreateView(CreateAPIView):
+    name = 'checkou-item-create-view'
+    queryset = models.CheckoutItem.objects.get_queryset()
+    serializer_class = serializers.CheckoutItemSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated]
+
+
+class CheckoutItemDetail(RetrieveAPIView):
+    name = 'checkout-item-detail'
+    queryset = models.CheckoutItem.objects.get_queryset()
+    serializer_class = serializers.CheckoutItemSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.IsCheckoutItemOwner]
+
+
+class PaymentMethodListView(ListAPIView):
+    name = 'payment-method-list-view'
+    queryset = models.PaymentMethod.objects.get_queryset()
+    serializer_class = serializers.PaymentMethodSerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated]
+
+
+class PaymentGatewayListView(ListAPIView):
+    name = 'payment-gateway-list-view'
+    queryset = PaymentGateway.objects.get_queryset()
+    serializer_class = PaymentGatewaySerializer
+    permission_classes = [rest_framework_permissions.IsAuthenticated]
