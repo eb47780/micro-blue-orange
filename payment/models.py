@@ -12,7 +12,7 @@ payment_method_choices = [(pm.value, pm.name) for pm in PaymentMethodEnum]
 
 class PaymentMethod(AutoCreateUpdateMixin):
     PAYMENT_METHOD_CHOICES = (
-      ('credit_card', 'credit_card')
+      ('credit_card', 'credit_card'),
     )
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255, choices=PAYMENT_METHOD_CHOICES, verbose_name='name')

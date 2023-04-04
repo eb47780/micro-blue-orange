@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class PaymentConfig(AppConfig):
-    name = 'payment_gateway'
+    name = 'payment'
     verbose_name = 'Payment Gateway Config'
