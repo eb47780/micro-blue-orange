@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.generics import *
 from rest_framework import permissions as rest_framework_permissions
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.views.generic import TemplateView
 
 
 class ApiRoot(APIView):
@@ -109,7 +110,7 @@ class CheckoutListCreateView(ListCreateAPIView):
     name = 'checkout-list-create-view'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutSerializer
-    permission_classes = [rest_framework_permissions.IsAuthenticated]
+    permission_classes = []
 
     def list(self, request, *args, **kwargs):
         current_user = request.user
@@ -122,14 +123,14 @@ class CheckoutDetail(RetrieveAPIView):
     name = 'checkout-detail'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutDetailSerializer
-    permission_classes = [rest_framework_permissions.IsAuthenticated, permissions.IsCheckoutOwner]
+    permission_classes = [permissions.IsCheckoutOwner]
 
 
 class CheckoutItemCreateView(CreateAPIView):
     name = 'checkou-item-create-view'
     queryset = models.CheckoutItem.objects.get_queryset()
     serializer_class = serializers.CheckoutItemSerializer
-    permission_classes = [rest_framework_permissions.IsAuthenticated]
+    permission_classes = []
 
 
 class CheckoutItemDetail(RetrieveAPIView):
@@ -151,3 +152,11 @@ class PaymentGatewayListView(ListAPIView):
     queryset = PaymentGateway.objects.get_queryset()
     serializer_class = PaymentGatewaySerializer
     permission_classes = [rest_framework_permissions.IsAuthenticated]
+
+
+class SuccessView(TemplateView):
+    template_name = "products/success.html"
+
+
+class CancelView(TemplateView):
+    template_name = "products/cancel.html"

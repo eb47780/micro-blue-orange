@@ -39,4 +39,8 @@ urlpatterns = [
     path('api/checkoutitem/<str:pk>', CheckoutItemDetail.as_view(), name=CheckoutItemDetail.name),
     path('api/paymentmethods', PaymentMethodListView.as_view(), name=PaymentMethodListView.name),
     path('api/paymentgateways', PaymentGatewayListView.as_view(), name=PaymentGatewayListView.name),
+
+    # temporary
+    path("success/", SuccessView.as_view(), name="success"),
+    path("cancel/", CancelView.as_view(), name="cancel"),
 ]

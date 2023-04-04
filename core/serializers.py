@@ -122,25 +122,23 @@ class CheckoutSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         payment_method = validated_data['payment_method']
         card_hash = validated_data.pop('card_hash')
-
         try:
             with transaction.atomic():
                 items = list(validated_data.pop('items'))
+                status = models.Status.objects.filter(id='e1182812-d1b0-4585-99bf-6510497602ab')
+                validated_data['status'] = status[0]
                 checkout = models.Checkout.objects.create(**validated_data)
-                checkout.status.id = 'e1182812-d1b0-4585-99bf-6510497602ab'
                 checkout_items = []
                 for item in items:
                     item['checkout'] = checkout
                     checkout_items.append(models.CheckoutItem(**item))
                 checkout.items = checkout.checkout_items.bulk_create(checkout_items)
-
                 payload = {
                     'customer': ClientSerializer(validated_data['customer']).data['id'],
                     'payment_method': PaymentMethodSerializer(payment_method).data['name'],
                     'checkout_id': CheckoutSerializer(checkout).data['id'],
                     'card_hash': card_hash
                 }
-
                 _publish(message=payload, routing_key='payment')
                 return checkout
         except IntegrityError as e:
@@ -160,7 +158,6 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
         return obj.total
 
     def get_items(self, obj):
-        print(obj.checkout_items.all())
         return [{
             'title': check_item.product.title,
             'quantity': check_item.quantity,
