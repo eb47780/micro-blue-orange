@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'polymorphic',
+    'corsheaders',
     'rest_framework',
     'administration',
     'authcore',
@@ -69,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
     'payment.middlewares.CheckPaymentMethodConfigMiddleware',
     'payment.middlewares.CheckPaymentGatewayDefaultMiddleware',
 ]
@@ -162,6 +165,8 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 MEDIA_BASE_PATH = 'uploads'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 if not LOCAL:
   CELERY_BROKER_URL = env('RABBITMQ_URI')
