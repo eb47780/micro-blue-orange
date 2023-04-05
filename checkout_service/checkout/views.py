@@ -39,7 +39,7 @@ class CheckoutListCreateView(ListCreateAPIView):
     name = 'checkout-list-create-view'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutSerializer
-    permission_classes = []
+    permission_classes = [permissions.IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         current_user = request.user
