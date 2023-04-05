@@ -43,6 +43,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return obj.total
 
     def create(self, validated_data):
+        print('came here?')
         try:
             with transaction.atomic():
                 items = list(validated_data.pop('items'))

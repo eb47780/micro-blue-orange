@@ -36,20 +36,6 @@ class CheckoutConsumer(bootsteps.ConsumerStep):
         ]
 
     def handle_message(self, data, message):
-        from authcore.models import Customer, Address, CheckoutUserAddress
-        import logging
-        try:
-            with transaction.atomic():
-                print(data)
-                customer = Customer.objects.filter(id=data['customer']).first()
-                address = Address.objects.filter(id=data['address']).first()
-                checkout = data['checkout']
-                print(customer, address, checkout)
-                CheckoutUserAddress.objects.create(customer_id=customer.id, customer=customer, address_id=address.id, address=address, checkout=checkout)
-        except Exception as e:
-            logging.exception(e)
-
-        message.ack()
+        pass
 
 app.steps['consumer'].add(CheckoutConsumer)
-    

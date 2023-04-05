@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework import permissions
 from checkout import models, serializers
-
+import checkout.permissions as custom_permissions
 
 
 class ApiRoot(APIView):
@@ -39,7 +39,7 @@ class CheckoutListCreateView(ListCreateAPIView):
     name = 'checkout-list-create-view'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [custom_permissions.IsAuthenticated, custom_permissions.IsCheckoutOwner]
 
     def list(self, request, *args, **kwargs):
         current_user = request.user
@@ -52,7 +52,7 @@ class CheckoutDetail(RetrieveAPIView):
     name = 'checkout-detail'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutDetailSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, custom_permissions.IsCheckoutOwner]
 
 
 class CheckoutItemCreateView(CreateAPIView):
@@ -66,4 +66,4 @@ class CheckoutItemDetail(RetrieveAPIView):
     name = 'checkout-item-detail'
     queryset = models.CheckoutItem.objects.get_queryset()
     serializer_class = serializers.CheckoutItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, custom_permissions.IsCheckoutItemOwner]
