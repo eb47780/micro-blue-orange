@@ -7,7 +7,7 @@ from productcore import models, serializers
 
 class ApiRoot(APIView):
     name = 'api-root'
-    BASE_REVERSE = "core:"
+    BASE_REVERSE = "productcore:"
 
     def get(self, request, *args, **kwargs):
         data = {
