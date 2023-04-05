@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'product',
     'common',
+    'fixtures',
 ]
 
 MIDDLEWARE = [
