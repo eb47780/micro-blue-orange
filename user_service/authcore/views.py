@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, CreateAPIView, RetrieveUpdateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework import status, permissions
+from rest_framework import status, permissions, viewsets, mixins
 from rest_framework_simplejwt.views import TokenObtainPairView
 from authcore import models, serializers
 
@@ -52,4 +52,11 @@ class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
     name = 'address-detail-update-destroy'
     queryset = models.Address.objects.get_queryset()
     serializer_class = serializers.AddressSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class CheckoutUserAddressCreateView(CreateAPIView):
+    name = 'checkout-user-address-create-view'
+    serializer_class = serializers.CheckoutUserAddressSerializer
+    queryset = models.CheckoutUserAddress.objects.get_queryset()
     permission_classes = [permissions.IsAuthenticated]

@@ -19,4 +19,7 @@ urlpatterns = [
     # api client address
     path('api/address/v1', AddressListCreateView.as_view(), name=AddressListCreateView.name),
     path('api/address/<str:pk>', AddressDetailUpdateDestroy.as_view(), name=AddressDetailUpdateDestroy.name),
+
+    # api checkout user address
+    path('api/checkout/user/address/', CheckoutUserAddressCreateView.as_view(), name=CheckoutUserAddressCreateView.name)
 ]

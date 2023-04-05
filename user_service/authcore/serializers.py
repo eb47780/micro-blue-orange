@@ -58,3 +58,7 @@ class AddressSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class CheckoutUserAddressSerializer(serializers.ModelSerializer):
+    class meta:
+        model = models.CheckoutUserAddress
+        fields = '__all__'
