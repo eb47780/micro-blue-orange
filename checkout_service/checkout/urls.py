@@ -1,7 +1,7 @@
 from django.urls import path
-from checkoutcore.views import *
+from checkout.views import *
 
-app_name = 'checkoutcore'
+app_name = 'checkout'
 
 
 urlpatterns = [

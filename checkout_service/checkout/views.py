@@ -4,13 +4,13 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIView, CreateAPIView
 from rest_framework import permissions
-from checkoutcore import models, serializers
+from checkout import models, serializers
 
 
 
 class ApiRoot(APIView):
     name = 'api-root'
-    BASE_REVERSE = "checkoutcore:"
+    BASE_REVERSE = "checkout:"
 
     def get(self, request, *args, **kwargs):
         data = {

@@ -3,11 +3,11 @@ from rest_framework.views import APIView
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework import status
-from productcore import models, serializers
+from product import models, serializers
 
 class ApiRoot(APIView):
     name = 'api-root'
-    BASE_REVERSE = "productcore:"
+    BASE_REVERSE = "product:"
 
     def get(self, request, *args, **kwargs):
         data = {

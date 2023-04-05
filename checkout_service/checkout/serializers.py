@@ -1,7 +1,7 @@
 from django.db import transaction, IntegrityError
 from django.forms.models import model_to_dict
 from rest_framework import serializers
-from checkoutcore import models
+from checkout import models
 from checkout_service_config.celery import _publish
 
 
