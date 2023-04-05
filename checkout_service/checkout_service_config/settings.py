@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import os
 import logging
+from kombu import Queue, Exchange
 
 LOCAL = os.getenv('LOCAL') is not None
 
@@ -133,6 +134,11 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+if not LOCAL:
+  CELERY_BROKER_URL = env('RABBITMQ_URI')
+else:
+  CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
 
 
 # Static files (CSS, JavaScript, Images)
