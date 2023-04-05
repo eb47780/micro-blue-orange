@@ -21,5 +21,5 @@ urlpatterns = [
     path('api/address/<str:pk>', AddressDetailUpdateDestroy.as_view(), name=AddressDetailUpdateDestroy.name),
 
     # api checkout user address
-    path('api/checkout/user/address/', CheckoutUserAddressCreateView.as_view(), name=CheckoutUserAddressCreateView.name)
+    path('api/checkout/user/address/', CheckoutUserCreateView.as_view(), name=CheckoutUserCreateView.name)
 ]

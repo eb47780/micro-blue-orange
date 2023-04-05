@@ -48,5 +48,19 @@
       "created_at": "2023-01-01T00:01:00.000Z",
       "updated_at": "2023-01-01T00:01:00.000Z"
     }
+  },
+
+  {
+    "model": "authcore.address",
+    "pk": "df8d851d-12e4-4020-a955-46294b8b4905",
+    "fields": {
+      "customer": "df8d851d-12e4-4020-a955-46294b8b4906",
+      "street": "Agim Ramadani",
+      "street_number": "B1",
+      "city": "Prishtine",
+      "zipcode": "10000",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
   }
 ]
