@@ -1,9 +1,9 @@
 import logging
 import os
-import time
 
 from celery import Celery, bootsteps
 import kombu
+from django.db import transaction
 
 logger = logging.getLogger(__name__)
 
@@ -21,9 +21,10 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
-''' setting publisher '''
+
 def rabbitmq_conn():
     return app.pool.acquire(block=True)
+
 
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
@@ -35,7 +36,8 @@ with rabbitmq_conn() as conn:
     )
     queue.declare()
 
-class PaymentConsumer(bootsteps.ConsumerStep):
+
+class Consumer(bootsteps.ConsumerStep):
     def get_consumers(self, channel):
         return [
             kombu.Consumer(
@@ -47,15 +49,25 @@ class PaymentConsumer(bootsteps.ConsumerStep):
         ]
 
     def handle_message(self, data, message):
-        from rest_framework_simplejwt.models import TokenUser
-        token = TokenUser.objects.filter(token=data['requested_token'])
-        print(token)
-        if token.exists() and token.values()[0]['status'] == 'valid':
-            pass
+        from authcore.models import Customer, Address, UserCheckout
         import time
         time.sleep(5)
-        print(data, message)
-        message.ack()
-    
+        try:
+            with transaction.atomic():
+                customer = Customer.objects.filter(id=data['customer_id']).first()
+                address = Address.objects.filter(id=data['address_id']).first()
+                UserCheckout.objects.create(
+                    customer_id=customer.id,
+                    customer=customer,
+                    address_id=address.id,
+                    address=address,
+                    checkout_id=data['checkout_id']
+                    )
+                logging.info('Task was completed successfully')
+        except Exception as e:
+            logging.exception(e)
 
-app.steps['consumer'].add(PaymentConsumer)
+        message.ack()
+
+
+app.steps['consumer'].add(Consumer)
