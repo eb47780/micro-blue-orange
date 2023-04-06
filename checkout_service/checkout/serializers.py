@@ -2,6 +2,7 @@ from django.db import transaction, IntegrityError
 from django.forms.models import model_to_dict
 from rest_framework import serializers
 from checkout import models
+import requests
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -27,7 +28,7 @@ class CheckoutItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['checkout']
 
     def get_title(self, obj):
-        return obj.product
+        return requests.get(f'http://127.0.0.1:8002/api/product/{obj.product}').json()['title'] 
 
 
 class CheckoutSerializer(serializers.ModelSerializer):
@@ -42,10 +43,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return obj.total
 
     def create(self, validated_data):
-        print('came here?')
         try:
             with transaction.atomic():
                 items = list(validated_data.pop('items'))
+                validated_data['status'] = models.Status.objects.filter(id='e1182812-d1b0-4585-99bf-6510497602ab').first()
                 checkout = models.Checkout.objects.create(**validated_data)
                 checkout_items = []
                 for item in items:
@@ -76,9 +77,9 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
 
     def get_items(self, obj):
         return [{
-            'title': check_item.product,
+            'title': requests.get(f'http://127.0.0.1:8002/api/product/{check_item.product}').json()['title'],
             'quantity': check_item.quantity,
-            'price': check_item.price
+            'price': float(check_item.price)
         } for check_item in obj.checkout_items.all()]
 
     def status(self, obj):
