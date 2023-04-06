@@ -6,6 +6,7 @@ from checkout import models
 class StatusAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(models.CheckoutItem)
 class CheckoutItemAdmin(admin.ModelAdmin):
     list_display = ('get_customer', 'get_date')
@@ -20,8 +21,10 @@ class CheckoutItemAdmin(admin.ModelAdmin):
 
     get_date.short_description = 'date'
 
+
 class CheckoutInline(admin.TabularInline):
     model = models.CheckoutItem
+
 
 @admin.register(models.Checkout)
 class CheckoutAdmin(admin.ModelAdmin):
