@@ -1,7 +1,8 @@
 from django.db import models
 from common.models import AutoCreateUpdateMixin
 from autoslug import AutoSlugField
-import os, uuid
+import uuid
+import os
 
 
 def product_image_file_path(instance, filename):
