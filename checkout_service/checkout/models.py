@@ -2,6 +2,7 @@ from django.db import models
 from common.models import AutoCreateUpdateMixin
 import uuid
 
+
 class Status(AutoCreateUpdateMixin):
     STATUS = (
         ('Processing Purchase', 'Processing Purchase'),
@@ -36,6 +37,7 @@ class Checkout(AutoCreateUpdateMixin):
         for item in self.checkout_items.all():
             sum += item.price * item.quantity
         return sum
+
 
 class CheckoutItem(AutoCreateUpdateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
