@@ -8,15 +8,15 @@ class IsAuthenticated(permissions.BasePermission):
 
 class IsCheckoutOwnerDetail(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.customer_id == request.user.id
+        return obj.customer == request.user.id
 
 
 class IsCheckoutOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         print(obj)
-        return obj.customer_id == request.user.id
+        return obj.customer == request.user.id
 
 
 class IsCheckoutItemOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.checkout.customer_id == request.user.id
+        return obj.checkout.customer == request.user.id
