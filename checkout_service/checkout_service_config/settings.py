@@ -14,7 +14,6 @@ from pathlib import Path
 import environ
 import os
 import logging
-from kombu import Queue, Exchange
 
 LOCAL = os.getenv('LOCAL') is not None
 
@@ -138,9 +137,9 @@ USE_I18N = True
 USE_TZ = True
 
 if not LOCAL:
-  CELERY_BROKER_URL = env('RABBITMQ_URI')
+    CELERY_BROKER_URL = env('RABBITMQ_URI')
 else:
-  CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
+    CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
 
 
 # Static files (CSS, JavaScript, Images)
@@ -150,4 +149,3 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
