@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from authcore.models import User, Address, Customer, CheckoutUser
+from authcore.models import User, Address, Customer
 
 
 class UserAdmin(DjangoUserAdmin):
@@ -14,11 +14,6 @@ admin.register(User, UserAdmin)
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('name', 'email')
     exclude = ['user']
-
-
-@admin.register(CheckoutUser)
-class CheckoutUserAdmin(admin.ModelAdmin):
-    pass
 
 
 @admin.register(Address)
