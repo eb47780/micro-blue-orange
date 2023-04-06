@@ -16,7 +16,6 @@ class ApiRoot(APIView):
         data = {
             'clients': reverse(ApiRoot.BASE_REVERSE+ClientListCreateView.name, request=request),
             'address': reverse(ApiRoot.BASE_REVERSE+AddressListCreateView.name, request=request),
-            'checkoutuser': reverse(ApiRoot.BASE_REVERSE+CheckoutUserCreateView.name, request=request)
         }
         return Response(data, status=status.HTTP_200_OK)
 
@@ -55,10 +54,3 @@ class AddressDetailUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = models.Address.objects.get_queryset()
     serializer_class = serializers.AddressSerializer
     permission_classes = [permissions.IsAuthenticated, custom_permissions.IsAddressOwnerDetail]
-
-
-class CheckoutUserCreateView(ListCreateAPIView):
-    name = 'checkout-user-create-view'
-    serializer_class = serializers.CheckoutUserSerializer
-    queryset = models.CheckoutUser.objects.get_queryset()
-    permission_classes = [permissions.IsAuthenticated]
