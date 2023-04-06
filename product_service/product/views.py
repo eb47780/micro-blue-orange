@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from product import models, serializers
 
+
 class ApiRoot(APIView):
     name = 'api-root'
     BASE_REVERSE = "product:"
@@ -15,6 +16,7 @@ class ApiRoot(APIView):
             'categories': reverse(ApiRoot.BASE_REVERSE+CategoryListView.name, request=request),
         }
         return Response(data, status=status.HTTP_200_OK)
+
 
 class CategoryListView(ListAPIView):
     name = 'category-list-view'
