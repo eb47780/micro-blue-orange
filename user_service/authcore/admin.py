@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from authcore.models import User, Address, Customer
+from authcore.models import User, Address, Customer, UserCheckout
 
 
 class UserAdmin(DjangoUserAdmin):
@@ -19,3 +19,8 @@ class CustomerAdmin(admin.ModelAdmin):
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ('customer', 'street', 'city')
+
+
+@admin.register(UserCheckout)
+class UserCheckoutAdmin(admin.ModelAdmin):
+    list_display = ('customer', 'address', 'checkout_id')
