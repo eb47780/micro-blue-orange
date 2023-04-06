@@ -28,7 +28,7 @@ class CheckoutItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['checkout']
 
     def get_title(self, obj):
-        return requests.get(f'http://127.0.0.1:8002/api/product/{obj.product}').json()['title'] 
+        return requests.get(f'http://127.0.0.1:8002/api/product/{obj.product}').json()['title']
 
 
 class CheckoutSerializer(serializers.ModelSerializer):
@@ -53,11 +53,11 @@ class CheckoutSerializer(serializers.ModelSerializer):
                     item['checkout'] = checkout
                     checkout_items.append(models.CheckoutItem(**item))
                 checkout.items = checkout.checkout_items.bulk_create(checkout_items)
-                payload = {
-                    'customer': validated_data['customer'],
-                    'checkout': CheckoutSerializer(checkout).data['id'],
-                    'address': validated_data['address']
-                }
+                # payload = {
+                #     'customer': validated_data['customer'],
+                #     'checkout': CheckoutSerializer(checkout).data['id'],
+                #     'address': validated_data['address']
+                # }
                 return checkout
         except IntegrityError as e:
             raise serializers.ValidationError({"detail": e})
