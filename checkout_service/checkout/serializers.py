@@ -2,6 +2,7 @@ from django.db import transaction, IntegrityError
 from django.forms.models import model_to_dict
 from rest_framework import serializers
 from checkout import models
+from checkout_service_config.celery import _publish
 import requests
 
 
@@ -43,6 +44,7 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return obj.total
 
     def create(self, validated_data):
+        print(validated_data)
         try:
             with transaction.atomic():
                 items = list(validated_data.pop('items'))
@@ -53,11 +55,12 @@ class CheckoutSerializer(serializers.ModelSerializer):
                     item['checkout'] = checkout
                     checkout_items.append(models.CheckoutItem(**item))
                 checkout.items = checkout.checkout_items.bulk_create(checkout_items)
-                # payload = {
-                #     'customer': validated_data['customer'],
-                #     'checkout': CheckoutSerializer(checkout).data['id'],
-                #     'address': validated_data['address']
-                # }
+                payload = {
+                    'customer_id': validated_data['customer'],
+                    'checkout_id': CheckoutSerializer(checkout).data['id'],
+                    'address_id': validated_data['address']
+                }
+                _publish(message=payload, routing_key='user_service')
                 return checkout
         except IntegrityError as e:
             raise serializers.ValidationError({"detail": e})
