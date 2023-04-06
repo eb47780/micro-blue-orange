@@ -1,4 +1,4 @@
-import logging 
+import logging
 import os
 
 from celery import Celery
@@ -20,11 +20,14 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django apps.
 app.autodiscover_tasks()
 
+
 def rabbitmq_conn():
     return app.pool.acquire(block=True)
 
+
 def rabbitmq_producer():
     return app.producer_pool.acquire(block=True)
+
 
 def _publish(message, routing_key):
     with rabbitmq_producer() as producer:
