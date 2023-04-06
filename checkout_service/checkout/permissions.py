@@ -10,12 +10,3 @@ class IsAuthenticated(permissions.BasePermission):
             return True
         elif response.status_code == 401:
             return False
-
-
-class IsCheckoutOwnerDetail(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return obj.customer == request.user.id
-
-class IsCheckoutItemOwner(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return obj.checkout.customer == request.user.id
