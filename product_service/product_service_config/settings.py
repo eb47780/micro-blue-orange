@@ -14,7 +14,6 @@ from pathlib import Path
 import environ
 import os
 import logging
-import datetime
 
 LOCAL = os.getenv('LOCAL') is not None
 
