@@ -2,7 +2,6 @@ from django.db import transaction, IntegrityError
 from django.forms.models import model_to_dict
 from rest_framework import serializers
 from checkout import models
-from checkout_service_config.celery import _publish
 
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -58,7 +57,6 @@ class CheckoutSerializer(serializers.ModelSerializer):
                     'checkout': CheckoutSerializer(checkout).data['id'],
                     'address': validated_data['address']
                 }
-                _publish(payload, 'user_service')
                 return checkout
         except IntegrityError as e:
             raise serializers.ValidationError({"detail": e})
