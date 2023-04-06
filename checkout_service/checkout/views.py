@@ -52,18 +52,18 @@ class CheckoutDetail(RetrieveAPIView):
     name = 'checkout-detail'
     queryset = models.Checkout.objects.get_queryset()
     serializer_class = serializers.CheckoutDetailSerializer
-    permission_classes = [permissions.IsAuthenticated, custom_permissions.IsCheckoutOwner]
+    permission_classes = []
 
 
 class CheckoutItemCreateView(CreateAPIView):
     name = 'checkou-item-create-view'
     queryset = models.CheckoutItem.objects.get_queryset()
     serializer_class = serializers.CheckoutItemSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [custom_permissions.IsAuthenticated]
 
 
 class CheckoutItemDetail(RetrieveAPIView):
     name = 'checkout-item-detail'
     queryset = models.CheckoutItem.objects.get_queryset()
     serializer_class = serializers.CheckoutItemSerializer
-    permission_classes = [permissions.IsAuthenticated, custom_permissions.IsCheckoutItemOwner]
+    permission_classes = [custom_permissions.IsAuthenticated, custom_permissions.IsCheckoutItemOwner]
