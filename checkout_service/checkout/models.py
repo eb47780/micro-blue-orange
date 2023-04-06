@@ -23,8 +23,8 @@ class Status(AutoCreateUpdateMixin):
 
 class Checkout(AutoCreateUpdateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.UUIDField(primary_key=False, null=False, editable=False)
-    address = models.UUIDField(primary_key=False, null=False, editable=False)
+    customer = models.UUIDField(primary_key=False)
+    address = models.UUIDField(primary_key=False)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True, related_name='status')
     remote_id = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name='remote_invoice_id', help_text='remote invoice id at the payment gateway')
 
@@ -42,7 +42,7 @@ class Checkout(AutoCreateUpdateMixin):
 class CheckoutItem(AutoCreateUpdateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     checkout = models.ForeignKey(Checkout, on_delete=models.CASCADE, related_name='checkout_items')
-    product = models.UUIDField(primary_key=False, null=False, editable=False)
+    product = models.UUIDField(primary_key=False)
     quantity = models.PositiveSmallIntegerField(verbose_name='quantity')
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name='price')
 
@@ -50,4 +50,4 @@ class CheckoutItem(AutoCreateUpdateMixin):
         verbose_name = 'checkout item'
 
     def __str__(self):
-        return f'Email {self.checkout.customer.email} Date {self.created_at}'
+        return f'Email {self.checkout.customer} Date {self.created_at}'
