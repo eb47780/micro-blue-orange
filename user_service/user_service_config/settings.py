@@ -15,7 +15,6 @@ import environ
 import os
 import logging
 import datetime
-from kombu import Exchange, Queue
 
 LOCAL = os.getenv('LOCAL') is not None
 
@@ -148,9 +147,9 @@ USE_TZ = True
 CORS_ORIGIN_ALLOW_ALL = True
 
 if not LOCAL:
-  CELERY_BROKER_URL = env('RABBITMQ_URI')
+    CELERY_BROKER_URL = env('RABBITMQ_URI')
 else:
-  CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
+    CELERY_BROKER_URL = "amqp://admin:admin@localhost:5672"
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
