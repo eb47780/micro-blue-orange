@@ -57,8 +57,3 @@ class AddressSerializer(serializers.ModelSerializer):
         instance.zipcode = validated_data.get('zipcode', instance.zipcode)
         instance.save()
         return instance
-
-class CheckoutUserSerializer(serializers.ModelSerializer):
-    class meta:
-        model = models.CheckoutUser
-        fields = '__all__'
