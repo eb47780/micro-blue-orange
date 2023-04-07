@@ -1,0 +1,44 @@
+[
+  {
+    "model": "payment.paymentgateway",
+    "pk": "e1182700-d1b0-4585-99bf-6510497602ab",
+    "fields": {
+      "name": "Stripe",
+      "default": true,
+      "polymorphic_ctype_id": 9,
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  },
+
+  {
+    "model": "payment.stripegateway",
+    "pk": "e2282812-d1b0-4585-99bf-6510497602ab",
+    "fields": {
+      "api_key": "pk_test_51MQWBTHJ9GTHbZihFGWGbEu2iixBQHbCLI3TXt1fXx8NqjaNOCA7vR2l8RlxeK7SUbTdX4SPaTEkjDvNMKydAk5d00NB7ZweMD",
+      "secret_key": "sk_test_51MQWBTHJ9GTHbZihDblfeNFToPV2rgYvzHiJ2GwuTJzrkROJ8nmkWcCYNapVagJlVsMm0WkUyFWPb0tZK7a0bDBp00QuS0Is2O",
+      "paymentgateway_ptr_id": "e1182700-d1b0-4585-99bf-6510497602ab"
+    }
+  },
+
+  {
+    "model": "payment.paymentmethod",
+    "pk": "e0282812-d1b0-4585-99bf-6510497602ab",
+    "fields": {
+      "name": "credit_card",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  },
+
+  {
+    "model": "payment.paymentmethodconfig",
+    "pk": "e0199999-d1b0-4585-99bf-6510497602ab",
+    "fields": {
+      "discount": 0,
+      "payment_method_id": "e0282812-d1b0-4585-99bf-6510497602ab",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  }
+]
