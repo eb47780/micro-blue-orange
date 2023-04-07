@@ -1,10 +1,11 @@
 <h1 align="center">Blue Orange Microservices</h1>
 
 <p align="center">
-  ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
   <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
 </p>
 
+
+An e-commerce backend service using python ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
 # Architecture
 
 This systems is an exmaple to scalable django features that is based on microservices pattern. Is it a good idea? Depends on the perspective.
