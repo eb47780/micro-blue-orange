@@ -26,6 +26,19 @@ def rabbitmq_conn():
     return app.pool.acquire(block=True)
 
 
+def rabbitmq_producer():
+    return app.producer_pool.acquire(block=True)
+
+
+def _publish(message, routing_key, exchange):
+    with rabbitmq_producer() as producer:
+        producer.publish(
+            body=message,
+            routing_key=routing_key,
+            exchange=exchange
+        )
+
+
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
         name='queue-payment',
@@ -49,8 +62,19 @@ class PaymentMethodConsumer(bootsteps.ConsumerStep):
         ]
 
     def handle_message(self, data, message):
-        with transaction.atomic():
-            pass
+        try:
+            with transaction.atomic():
+                from payment.process_payment import simulate
+                remote_invoice_id = simulate()
+                data['remote_invoice_id'] = remote_invoice_id
+                data['status_id'] = 'e2182812-d1b0-4585-99bf-6510497602ab'
+                _publish(message=data, routing_key='checkout_service', exchange='checkout')
+                _publish(message=data, routing_key='payment_checkout_service', exchange='payment_checkout')
+                logger.info('')
+        except Exception as e:
+            logger.exception(e)
 
+        message.ack()
 
+        
 app.steps['consumer'].add(PaymentMethodConsumer)
