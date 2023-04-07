@@ -1,6 +1,7 @@
 import time
 
 
-def simulate(validated_data):
-    time.sleep(1)
-    print('payment simulation completed')
+def simulate():
+    print('Processing Payment Simulation')
+    time.sleep(20)
+    return 'Remote Invoice Id Dummy'
