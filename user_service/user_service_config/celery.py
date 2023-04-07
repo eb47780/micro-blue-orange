@@ -61,7 +61,7 @@ class Consumer(bootsteps.ConsumerStep):
                     address_id=address.id,
                     address=address,
                     checkout_id=data['checkout_id'],
-                    payment_method_id = data['payment_method_id']
+                    payment_method_id=data['payment_method_id']
                     )
                 logging.info('Task was completed successfully')
         except Exception as e:
