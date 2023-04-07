@@ -4,6 +4,7 @@
   <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
 </p>
 
+----
 
 An e-commerce backend service using python ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
 # Architecture
@@ -29,8 +30,7 @@ Possibly, depending how many traffics or services there are several pros and con
 
 See Docker folder how to get started with backend service.
 
------
-
 ## License
 This project is under the MIT license. See the [LICENSE](LICENSE) for more information.
+
 ---
