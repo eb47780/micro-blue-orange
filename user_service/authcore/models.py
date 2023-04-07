@@ -58,6 +58,7 @@ class UserCheckout(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='customer_address')
     checkout_id = models.UUIDField(primary_key=False, null=False, editable=False)
     payment_method_id = models.UUIDField(primary_key=False, null=False, editable=False)
+    status_id = models.UUIDField(primary_key=False, null=False, editable=True)
 
     class Meta:
         verbose_name = 'User Checkout'
