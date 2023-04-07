@@ -58,7 +58,8 @@ class CheckoutSerializer(serializers.ModelSerializer):
                     'customer_id': validated_data['customer'],
                     'checkout_id': CheckoutSerializer(checkout).data['id'],
                     'payment_method_id': validated_data['payment_method'],
-                    'address_id': validated_data['address']
+                    'address_id': validated_data['address'],
+                    'status_id': StatusSerializer(validated_data['status']).data['id']
                 }
                 _publish(message=payload, routing_key='user_service', exchange='user')
                 return checkout
