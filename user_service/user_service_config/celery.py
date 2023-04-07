@@ -4,7 +4,7 @@ import os
 from celery import Celery, bootsteps
 import kombu
 from django.db import transaction
-from django.forms.models import model_to_dict
+
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +26,7 @@ app.autodiscover_tasks()
 def rabbitmq_conn():
     return app.pool.acquire(block=True)
 
+
 def rabbitmq_producer():
     return app.producer_pool.acquire(block=True)
 
@@ -37,6 +38,7 @@ def _publish(message, routing_key, exchange):
             routing_key=routing_key,
             exchange=exchange
         )
+
 
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
