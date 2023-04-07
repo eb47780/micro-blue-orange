@@ -3,10 +3,6 @@ set +e
 
 docker-compose down -v --remove-orphans
 wait
-echo '###########################'
-echo 'BEGIN: docker-compose build'
-echo '###########################'
+echo "Building: Microservices, Databases, AMQP, Celery Workers"
 docker-compose build # Set up the Docker containers
-echo '##############################'
-echo 'FINISHED: docker-compose build'
-echo '##############################'
+echo 'Finished: docker-compose build'

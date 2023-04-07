@@ -3,21 +3,21 @@ name: CI
 on: [pull_request, push]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
-    
-    - name: Build Docker
+
+    - name: dockerization
       run: |
         docker-compose up -d
-    
-    - name: Docker Database Connection
+
+    - name: postgres connection
       run: |
         docker run --network container:micro-blue-orange-database jwilder/dockerize -wait tcp://micro-blue-orange-database:5432 -timeout 500s -wait-retry-interval 5s
 
-    - name: Flake8
+    - name: flake8
       run: |
         pip install flake8
-        ./flake8
+        flake8 user_service product_service paymentgateway_service checkout_service

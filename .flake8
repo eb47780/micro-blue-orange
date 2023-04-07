@@ -1,6 +1,4 @@
 [flake8]
 per-file-ignores =
-  */*:E302 E305 E111 F403 E501
-  */*/*:E501
-  */migrations/*:W292 E302 E305 E111 E501
-  core/*:F405 E501 F403
+  */*/*:E501 F403 F405
+  */manage.py: E501

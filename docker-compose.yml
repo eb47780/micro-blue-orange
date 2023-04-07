@@ -1,52 +1,92 @@
 version: "3.7"
 
 services:
-  app:
-    build: .
-    container_name: "micro-blue-orange-app"
-    working_dir: /usr/src/app
-    entrypoint: ./docker/app-entrypoint.sh
+  user_service:
+    build: user_service/.
+    container_name: user-service
+    working_dir: /usr/src/user_service
+    entrypoint: ./docker/entrypoints/user_entrypoint.sh
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/user_service
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
-      - database
-      - rabbitmq
-    networks:
-      - default
-  
-  worker:
-    build: .
-    container_name: "micro-blue-orange-worker"
-    restart: on-failure
-    entrypoint: ./docker/worker-entrypoint.sh
-    volumes:
-      - .:/usr/src/app
-    depends_on:
-      - app
-      - database
+      - database_schema
+      - amqp
     networks:
       - default
 
-  database:
-    container_name: "micro-blue-orange-database"
-    image: library/postgres:14.6-alpine
-    ports: 
-      - "5431:5432"
-    volumes: 
-      - postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_DB=database
-    restart: always
+  product_service:
+    build: product_service/.
+    container_name: "product-service"
+    working_dir: /usr/src/product_service
+    entrypoint: ./docker/entrypoints/product_entrypoint.sh
+    volumes:
+      - .:/usr/src/product_service
+    ports:
+      - "8002:8000"
+    depends_on:
+      - database_schema 
+      - amqp
     networks:
       - default
+
+  paymentgateway_service:
+    build: paymentgateway_service/.
+    container_name: "payment-gateway-service"
+    working_dir: /usr/src/paymentgateway_service
+    entrypoint: ./docker/entrypoints/payment_entrypoint.sh
+    volumes:
+      - .:/usr/src/paymentgateway_service
+    ports:
+      - "8003:8000"
+    depends_on:
+      - database_schema
+      - amqp
+    networks:
+      - default
+
+  checkout_service:
+    build: checkout_service/.
+    container_name: "checkout-service"
+    working_dir: /usr/src/checkout_service
+    entrypoint: ./docker/entrypoints/checkout_entrypoint.sh
+    volumes:
+      - .:/usr/src/checkout_service
+    ports:
+      - "8004:8000"
+    depends_on:
+      - database_schema
+      - amqp
+    networks:
+      - default
+
+  database_schema:
+    container_name: micro-blue-orange-database
+    image: library/postgres:14.6-alpine
+    ports:
+      - "5431:5432"
+    volumes:
+      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=user_service,admin:product_service,admin:paymentgateway_service,admin:checkout_service,admin
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    networks:
+      - default
+
+  adminer:
+    container_name: adminer-container
+    image: adminer
+    ports:
+      - 8080:8080
+    restart: always
+    networks: 
+      - default
   
-  rabbitmq:
+  amqp:
     image: 'rabbitmq:3.11-management-alpine'
-    container_name: "micro-blue-orange-rabbitmq"
+    container_name: micro-blue-orange-rabbitmq
     hostname: rabbitmq
     ports:
       - "15672:15672"
@@ -59,13 +99,49 @@ services:
     networks:
       - default
 
-  adminer:
-    container_name: adminer-container
-    image: adminer
-    ports:
-      - 8080:8080
-    restart: always
-    networks: 
+  user_worker:
+    build: .
+    container_name: user-worker
+    restart: on-failure
+    entrypoint: docker/workers/user_worker.sh
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - user_service
+      - paymentgateway_service
+      - checkout_service
+      - database_schema
+    networks:
+      - default
+
+  payment_worker:
+    build: .
+    container_name: payment-worker
+    restart: on-failure
+    entrypoint: docker/workers/payment_worker.sh
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - user_service
+      - paymentgateway_service
+      - checkout_service
+      - database_schema
+    networks:
+      - default
+  
+  checkout_worker:
+    build: .
+    container_name: checkout-worker
+    restart: on-failure
+    entrypoint: docker/workers/checkout_worker.sh
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - user_service
+      - paymentgateway_service
+      - checkout_service
+      - database_schema
+    networks:
       - default
 
 volumes:

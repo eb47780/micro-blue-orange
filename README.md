@@ -1,21 +1,36 @@
-<h1 align="center">Micro Blue Orange Server</h1>
+<h1 align="center">Blue Orange Microservices</h1>
 
 <p align="center">
-
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/endritber/micro-blue-orange/github-ci.yml">
   <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
 </p>
 
+----
 
-## Technologies used in backend side
-* [Docker](https://www.docker.com/)
-* [DockerCompose](https://docs.docker.com/compose/)
-* [PostgreSql](https://www.postgresql.org/)
-* [Celery](https://docs.celeryproject.org/en/latest/django/first-steps-with-django.html)
-* [Django rest framework](https://www.django-rest-framework.org/)
-* [Django](https://www.djangoproject.com/)
+An e-commerce backend service using python ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
+# Architecture
+
+This systems is an example to scalable django features that is based on microservices pattern. Is it a good idea? Depends on the perspective.
+The difference is that, microservices running here propose a loosely coupled and contradicted against django with tightly coupled style
+
+## Trade-off
+
+Possibly, depending how many traffics or services there are several pros and cons to get going with this pattern. If you got a problem with reusability or customizable - this pattern might come handy since it is independently integrating with any frontend framework that has a high start-up speed of less than a second. 
+
+### Tools
+ ```
+ Django
+ Django REST Framework (Simple JWT)
+ Postgresql
+ Celery
+ RabbitMQ
+ Adminer
+ ```
+
+-----
+
+See Docker folder how to get started with backend service.
 
 ## License
-This project is under the MIT license. See the [LICENSE](LICENSE.md) for more information.
+This project is under the MIT license. See the [LICENSE](LICENSE) for more information.
 
 ---

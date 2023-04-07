@@ -4,6 +4,8 @@ FROM python:3.9.6
 ENV DOCKERIZE_VERSION v0.6.1
 ENV PYTHONUNBUFFERED 1
 ENV PATH $PATH:/usr/src/.local/bin
+ENV DOCKER_BUILDKIT 0
+ENV COMPOSE_DOCKER_CLI_BUILD 0
 
 # Set workspace
 WORKDIR /usr/src/app
@@ -20,10 +22,5 @@ COPY . /usr/src/app
 RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
-RUN mkdir -p /vol/web/media/uploads/product
-COPY media/test-product.jpg /vol/web/media/uploads/product/
-RUN mkdir -p /vol/web/static
 RUN adduser user
-RUN chown -R user:user /vol
-RUN chmod -R 755 /vol/web
 USER user
