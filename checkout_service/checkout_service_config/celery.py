@@ -38,6 +38,7 @@ def _publish(message, routing_key, exchange):
             exchange=exchange
         )
 
+
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
         name='queue-checkout',
