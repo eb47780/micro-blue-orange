@@ -1,0 +1,74 @@
+#!/bin/bash
+set -e
+
+# This script verify docker and builds the Docker container
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+
+  if hash docker 2>/dev/null; then
+    CONTAINER_RUNTIME=docker
+  else
+    
+    echo "Docker was not found in your system"
+    echo "Please install Docker:"
+    echo "https://docs.docker.com/docker-for-mac/install/"
+
+    exit 1
+
+  fi
+
+  if hash docker-compose 2>/dev/null; then
+    CONTAINER_COMPOSE=docker-compose
+  else
+
+    echo "Docker-Compose was not found in your system"
+    echo "Please install Docker:"
+    echo "https://docs.docker.com/docker-for-mac/install/"
+
+    exit 1
+
+  fi
+
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+
+  if hash docker 2>/dev/null; then
+    CONTAINER_RUNTIME=docker
+  else
+
+    echo "Docker was not found in your system"
+    echo "Please install Docker:"
+    echo "https://docs.docker.com/engine/install/ubuntu/"
+
+    exit 1
+
+  fi
+
+  if hash docker 2>/dev/null; then
+    CONTAINER_COMPOSE=docker-compose
+  else
+
+    echo "Error! We could not find ${CONTAINER_COMPOSE} on your system!"
+    echo "Please install podman-compose:"
+    echo "https://github.com/containers/podman-compose#installation"
+
+    exit 1
+
+  fi
+
+else
+
+  echo "This Operating System is not supported yet!"
+
+fi
+
+if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
+
+  echo "Building Process..."
+  echo "Please stand by..."
+  echo "This might take some minutes!"
+  sleep 5
+  
+  DATE=`date +%Y%m%d-%H%M%S-%3N`
+  docker/build-log 2>&1 | tee log/build-$DATE.log
+  
+fi
