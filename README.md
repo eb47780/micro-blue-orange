@@ -1,7 +1,7 @@
 <h1 align="center">Blue Orange Microservices</h1>
 
 <p align="center">
-  ![build](https://github.com/endritber/microo-blue-orange/actions/workflows/github-ci.yml/badge.svg)
+  ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
   <img alt="License" src="https://img.shields.io/badge/license-MIT-%2304D361">
 </p>
 
