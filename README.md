@@ -9,7 +9,7 @@
 An e-commerce backend service using python ![build](https://github.com/endritber/micro-blue-orange/actions/workflows/github-ci.yml/badge.svg)
 # Architecture
 
-This systems is an exmaple to scalable django features that is based on microservices pattern. Is it a good idea? Depends on the perspective.
+This systems is an example to scalable django features that is based on microservices pattern. Is it a good idea? Depends on the perspective.
 The difference is that, microservices running here propose a loosely coupled and contradicted against django with tightly coupled style
 
 ## Trade-off
