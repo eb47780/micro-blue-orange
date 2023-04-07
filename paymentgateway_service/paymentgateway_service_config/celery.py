@@ -76,5 +76,5 @@ class PaymentMethodConsumer(bootsteps.ConsumerStep):
 
         message.ack()
 
-   
+ 
 app.steps['consumer'].add(PaymentMethodConsumer)
