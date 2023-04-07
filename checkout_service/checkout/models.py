@@ -25,6 +25,7 @@ class Checkout(AutoCreateUpdateMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.UUIDField(primary_key=False)
     address = models.UUIDField(primary_key=False)
+    payment_method = models.UUIDField(primary_key=False)
     status = models.ForeignKey(Status, on_delete=models.PROTECT, null=True, related_name='status')
     remote_id = models.CharField(max_length=255, blank=True, null=True, default=None, verbose_name='remote_invoice_id', help_text='remote invoice id at the payment gateway')
 
