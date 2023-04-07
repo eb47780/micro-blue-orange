@@ -17,6 +17,22 @@ jobs:
       run: |
         docker run --network container:micro-blue-orange-database jwilder/dockerize -wait tcp://micro-blue-orange-database:5432 -timeout 500s -wait-retry-interval 5s
 
+    - name: user service connection
+      run: |
+        docker run --network container:user-service jwilder/dockerize -wait tcp://user-service:8000 -timeout 500s -wait-retry-interval 5s
+
+    - name: product service connection
+      run: |
+        docker run --network container:product-service jwilder/dockerize -wait tcp://product-service:8000 -timeout 500s -wait-retry-interval 5s
+
+    - name: payment gateway service connection
+      run: |
+        docker run --network container:payment-gateway-service jwilder/dockerize -wait tcp://payment-gateway-service:8000 -timeout 500s -wait-retry-interval 5s
+    
+    - name: checkout service connection
+      run: |
+        docker run --network container:checkout-service jwilder/dockerize -wait tcp://checkout-service:8000 -timeout 500s -wait-retry-interval 5s
+
     - name: flake8
       run: |
         pip install flake8
