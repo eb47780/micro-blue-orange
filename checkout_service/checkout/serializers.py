@@ -44,7 +44,6 @@ class CheckoutSerializer(serializers.ModelSerializer):
         return obj.total
 
     def create(self, validated_data):
-        print(validated_data)
         try:
             with transaction.atomic():
                 items = list(validated_data.pop('items'))
@@ -58,9 +57,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
                 payload = {
                     'customer_id': validated_data['customer'],
                     'checkout_id': CheckoutSerializer(checkout).data['id'],
+                    'payment_method_id': validated_data['payment_method'],
                     'address_id': validated_data['address']
                 }
-                _publish(message=payload, routing_key='user_service')
+                _publish(message=payload, routing_key='user_service', exchange='user')
                 return checkout
         except IntegrityError as e:
             raise serializers.ValidationError({"detail": e})
