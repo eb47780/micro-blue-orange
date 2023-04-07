@@ -29,7 +29,7 @@ class CheckoutItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['checkout']
 
     def get_title(self, obj):
-        return requests.get(f'http://127.0.0.1:8002/api/product/{obj.product}').json()['title']
+        return requests.get(f'http://product-service:8000/api/product/{obj.product}').json()['title']
 
 
 class CheckoutSerializer(serializers.ModelSerializer):
@@ -81,7 +81,7 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
 
     def get_items(self, obj):
         return [{
-            'title': requests.get(f'http://127.0.0.1:8002/api/product/{check_item.product}').json()['title'],
+            'title': requests.get(f'http://product-service:8000/api/product/{check_item.product}').json()['title'],
             'quantity': check_item.quantity,
             'price': float(check_item.price)
         } for check_item in obj.checkout_items.all()]
