@@ -28,13 +28,14 @@ def rabbitmq_conn():
 
 with rabbitmq_conn() as conn:
     queue = kombu.Queue(
-        name='queue-checkout',
-        exchange='checkout',
+        name='queue-user',
+        exchange='user',
         routing_key='user_service',
         channel=conn,
         durable=True
     )
     queue.declare()
+    print(queue)
 
 
 class Consumer(bootsteps.ConsumerStep):
@@ -50,8 +51,6 @@ class Consumer(bootsteps.ConsumerStep):
 
     def handle_message(self, data, message):
         from authcore.models import Customer, Address, UserCheckout
-        import time
-        time.sleep(5)
         try:
             with transaction.atomic():
                 customer = Customer.objects.filter(id=data['customer_id']).first()
@@ -61,7 +60,8 @@ class Consumer(bootsteps.ConsumerStep):
                     customer=customer,
                     address_id=address.id,
                     address=address,
-                    checkout_id=data['checkout_id']
+                    checkout_id=data['checkout_id'],
+                    payment_method_id = data['payment_method_id']
                     )
                 logging.info('Task was completed successfully')
         except Exception as e:
