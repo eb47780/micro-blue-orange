@@ -52,4 +52,5 @@ class PaymentMethodConsumer(bootsteps.ConsumerStep):
         with transaction.atomic():
             pass
 
+
 app.steps['consumer'].add(PaymentMethodConsumer)
