@@ -29,10 +29,10 @@ def rabbitmq_producer():
     return app.producer_pool.acquire(block=True)
 
 
-def _publish(message, routing_key):
+def _publish(message, routing_key, exchange):
     with rabbitmq_producer() as producer:
         producer.publish(
             body=message,
             routing_key=routing_key,
-            exchange='checkout'
+            exchange=exchange
         )
