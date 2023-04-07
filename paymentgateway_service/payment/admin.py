@@ -1,5 +1,5 @@
 from django.contrib import admin
-from payment.models import PaymentGateway, PaymentMethod, PaymentMethodEnum, PaymentMethodConfig, PolymorphicModel, StripeGateway
+from payment.models import PaymentGateway, PaymentMethod, PaymentMethodConfig, StripeGateway
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 
 

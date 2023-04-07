@@ -1,6 +1,4 @@
 [flake8]
 per-file-ignores =
   */*/*:E501 F403 F405
-  user_service/manage.py: E501
-  product_service/manage.py: E501
-  checkout_service/manage.py: E501
+  */manage.py: E501
