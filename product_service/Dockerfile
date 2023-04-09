@@ -22,7 +22,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 RUN mkdir -p /vol/web/media/uploads/product
-COPY media/test-product.jpg /vol/web/media/uploads/product/
+COPY media/* /vol/web/media/uploads/product
 RUN mkdir -p /vol/web/static
 RUN adduser user
 RUN chown -R user:user /vol
