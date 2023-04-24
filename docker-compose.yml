@@ -5,7 +5,7 @@ services:
     build: user_service/.
     container_name: user-service
     working_dir: /usr/src/user_service
-    entrypoint: ./docker/entrypoints/user_entrypoint.sh
+    entrypoint: user_service/user_entrypoint.sh
     volumes:
       - .:/usr/src/user_service
     ports:
@@ -20,7 +20,7 @@ services:
     build: product_service/.
     container_name: "product-service"
     working_dir: /usr/src/product_service
-    entrypoint: ./docker/entrypoints/product_entrypoint.sh
+    entrypoint: product_service/product_entrypoint.sh
     volumes:
       - .:/usr/src/product_service
     ports:
@@ -35,7 +35,7 @@ services:
     build: paymentgateway_service/.
     container_name: "payment-gateway-service"
     working_dir: /usr/src/paymentgateway_service
-    entrypoint: ./docker/entrypoints/payment_entrypoint.sh
+    entrypoint: paymentgateway_service/payment_entrypoint.sh
     volumes:
       - .:/usr/src/paymentgateway_service
     ports:
@@ -50,7 +50,7 @@ services:
     build: checkout_service/.
     container_name: "checkout-service"
     working_dir: /usr/src/checkout_service
-    entrypoint: ./docker/entrypoints/checkout_entrypoint.sh
+    entrypoint: checkout_service/checkout_entrypoint.sh
     volumes:
       - .:/usr/src/checkout_service
     ports:
@@ -67,7 +67,7 @@ services:
     ports:
       - "5431:5432"
     volumes:
-      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - ./docker/build_dbs:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_MULTIPLE_DATABASES=user_service,admin:product_service,admin:paymentgateway_service,admin:checkout_service,admin
       - POSTGRES_USER=admin
@@ -100,12 +100,12 @@ services:
       - default
 
   user_worker:
-    build: .
+    build: user_service/.
     container_name: user-worker
     restart: on-failure
-    entrypoint: docker/workers/user_worker.sh
+    entrypoint: /usr/src/user_service/user_worker.sh
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src
     depends_on:
       - user_service
       - paymentgateway_service
@@ -115,12 +115,12 @@ services:
       - default
 
   payment_worker:
-    build: .
+    build: paymentgateway_service/.
     container_name: payment-worker
     restart: on-failure
-    entrypoint: docker/workers/payment_worker.sh
+    entrypoint: /usr/src/paymentgateway_service/payment_worker.sh
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src
     depends_on:
       - user_service
       - paymentgateway_service
@@ -130,12 +130,12 @@ services:
       - default
   
   checkout_worker:
-    build: .
+    build: checkout_service/.
     container_name: checkout-worker
     restart: on-failure
-    entrypoint: docker/workers/checkout_worker.sh
+    entrypoint: /usr/src/checkout_service/checkout_worker.sh
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src
     depends_on:
       - user_service
       - paymentgateway_service

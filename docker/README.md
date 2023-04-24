@@ -35,10 +35,10 @@ docker/server
 - To connect to database user docker command.
 
 ```
-docker exec -it micro-blue-orange-database psql -U admin -W database
+docker exec -it micro-blue-orange-database psql -U admin -W <database_name>
 ```
 
 # Docker Script Summary
 
 * docker/build: This script builds the Docker containers specified for this app, and logs the screen output for these operations.  After you use "git clone" to download this repository, run the docker/build script to start the setup process.
-* docker/server: Use this script to run this app in the Rails server.  This script executes the "docker-compose up" command and logs the results.  If all goes well, you will be able to view the services on port 8001, 8002, 8003, 8004.
+* docker/server: Use this script to run this app.  This script executes the "docker-compose up" command and logs the results.  If all goes well, you will be able to view the services on port 8001, 8002, 8003, 8004.

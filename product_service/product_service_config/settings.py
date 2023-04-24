@@ -142,3 +142,5 @@ STATIC_URL = 'static/'
 MEDIA_ROOT = '/vol/web/media'
 STATIC_ROOT = '/vol/web/static'
 MEDIA_BASE_PATH = 'uploads'
+
+CORS_ALLOW_ALL_ORIGINS = True
