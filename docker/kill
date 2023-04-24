@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # This script destroys all Docker containers but leaves the Docker images alone.
 
 echo '------------------------------------------'

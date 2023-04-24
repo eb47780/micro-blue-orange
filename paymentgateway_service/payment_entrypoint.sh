@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /usr/src/paymentgateway_service/paymentgateway_service
+cd /usr/src/paymentgateway_service/paymentgateway_service/
 
 if [ ! -f ".env" ]; then
   cp .env.example .env

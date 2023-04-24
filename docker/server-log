@@ -1,7 +1,6 @@
-
 #!/bin/bash
 
 set +e
 
-echo "Services Completed"
 docker-compose up
+echo "Microservies are up"
