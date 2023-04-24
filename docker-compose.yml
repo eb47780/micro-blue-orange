@@ -67,7 +67,7 @@ services:
     ports:
       - "5431:5432"
     volumes:
-      - ./docker-postgresql-multiple-databases:/docker-entrypoint-initdb.d
+      - ./docker/build_dbs:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_MULTIPLE_DATABASES=user_service,admin:product_service,admin:paymentgateway_service,admin:checkout_service,admin
       - POSTGRES_USER=admin
