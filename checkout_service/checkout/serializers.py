@@ -17,7 +17,7 @@ class StatusDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Status
-        fields = ['url', 'message']
+        fields = ['id', 'message']
 
 
 class CheckoutItemSerializer(serializers.ModelSerializer):
@@ -88,3 +88,4 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
 
     def status(self, obj):
         return model_to_dict(models.Status.objects.get(id=obj.status.id))
+
