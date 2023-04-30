@@ -2,6 +2,7 @@ from payment.models import PaymentMethod
 from payment.serializers import PaymentMethodSerializer
 from paymentgateway_service_config import settings
 import stripe
+import logging
 
 
 stripe.api_key = settings.STRIPE_API_KEY
@@ -14,7 +15,6 @@ def create_invoice(customer, amount):
         customer=customer['id'],
         amount=amount,
         invoice=invoice.id,
-        receipt_email=customer['email'],
     )
     finalized_invoice = stripe.Invoice.pay(invoice['id'])
     return finalized_invoice
@@ -56,11 +56,11 @@ def checkout_session(data):
         metadata=metadata
     )
 
-    customer = stripe.Customer.search(
-        query=f"email:{data['customer']['email']}"
+    customer = stripe.Customer.list(
+        email=data['customer']['email']
     )
 
-    if len(customer['data'] == 1):
+    if len(customer['data']) == 1:
         customer = stripe.Customer.retrieve(id=customer['data'][0]['id'])
     else:
         customer = stripe.Customer.create(
