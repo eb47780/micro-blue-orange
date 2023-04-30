@@ -6,7 +6,19 @@ import stripe
 
 stripe.api_key = settings.STRIPE_API_KEY
 DOMAIN = 'http://localhost:4200'
-     
+
+
+def create_invoice(customer, amount):
+    invoice = stripe.Invoice.create(customer=customer['id'])
+    stripe.InvoiceItem.create(
+        customer=customer['id'],
+        amount=amount,
+        invoice=invoice.id,
+        receipt_email=customer['email'],
+    )
+    finalized_invoice = stripe.Invoice.pay(invoice['id'])
+    return finalized_invoice
+
 
 def checkout_session(data):
     checkout = data['checkout']
@@ -19,7 +31,7 @@ def checkout_session(data):
     metadata = {}
     metadata['customer'] = data['customer']['email']
     metadata['address'] = data['address']['street'] + ' ' + data['address']['street_number'] + ', ' + data['address']['city']
-    
+
     line_items = []
     for item in checkout['items']:
         data_passed = {
@@ -34,29 +46,30 @@ def checkout_session(data):
         }
         metadata['product'] = item['title']
         line_items.append(data_passed)
-        
+
     stripe.checkout.Session.create(
-        payment_method_types = [payment_method['name']],
-        line_items = line_items,
+        payment_method_types=[payment_method['name']],
+        line_items=line_items,
         mode='payment',
-        success_url=DOMAIN+'/success',
-        cancel_url=DOMAIN+'/failed',
-        metadata = metadata
+        success_url=DOMAIN + '/success',
+        cancel_url=DOMAIN + '/failed',
+        metadata=metadata
     )
-    
+
     customer = stripe.Customer.search(
         query=f"email:{data['customer']['email']}"
     )
-    
+
     if len(customer['data'] == 1):
         customer = stripe.Customer.retrieve(id=customer['data'][0]['id'])
     else:
-        customer = stripe.Customer.create(email=data['customer']['email'],
-                                    name=data['customer']['name'],
-                                    phone=data['customer']['phone'],
-                                    address=address
-                                    )
-    
+        customer = stripe.Customer.create(
+            email=data['customer']['email'],
+            name=data['customer']['name'],
+            phone=data['customer']['phone'],
+            address=address
+        )
+
     card = stripe.Customer.create_source(customer['id'], source='tok_visa')
     intent = stripe.PaymentIntent.create(
         amount=int(float(data['checkout']['total']))*100,
@@ -65,13 +78,6 @@ def checkout_session(data):
         payment_method=card['id']
     )
     stripe.PaymentIntent.confirm(intent['id'], payment_method=card['id'])
-    
-    invoice = stripe.Invoice.create(customer = customer['id'])
-    stripe.InvoiceItem.create(
-        customer=customer['id'],
-        amount=int(float(data['checkout']['total']))*100,
-        invoice=invoice.id,
-        receipt_email=customer['email'],
-        )
-    finalized_invoice = stripe.Invoice.pay(invoice['id'],)
+    finalized_invoice = create_invoice(customer, int(float(data['checkout']['total']))*100)
+
     return finalized_invoice.hosted_invoice_url
