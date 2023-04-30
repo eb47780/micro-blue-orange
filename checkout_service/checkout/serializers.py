@@ -82,15 +82,15 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
     def get_items(self, obj):
         items = []
         for check_item in obj.checkout_items.all():
-            product = requests.get(f'http://product-service:8000/api/product/{check_item.product}').json() 
+            product = requests.get(f'http://product-service:8000/api/product/{check_item.product}').json()
             data_passed = {
-            'title': product['title'],
-            'image': product['image_url'],
-            'quantity': check_item.quantity,
-            'price': float(check_item.price)
+                'title': product['title'],
+                'image': product['image_url'],
+                'quantity': check_item.quantity,
+                'price': float(check_item.price)
             }
             items.append(data_passed)
-        
+
         return items
 
     def get_status(self, obj):
