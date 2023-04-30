@@ -56,10 +56,10 @@ class CheckoutSerializer(serializers.ModelSerializer):
                 checkout.items = checkout.checkout_items.bulk_create(checkout_items)
                 payload = {
                     'customer_id': validated_data['customer'],
-                    'checkout_id': CheckoutSerializer(checkout).data['id'],
-                    'payment_method_id': validated_data['payment_method'],
                     'address_id': validated_data['address'],
-                    'status_id': StatusSerializer(validated_data['status']).data['id']
+                    'payment_method_id': validated_data['payment_method'],
+                    'checkout': CheckoutSerializer(checkout).data,
+                    'status': StatusSerializer(validated_data['status']).data
                 }
                 _publish(message=payload, routing_key='user_service', exchange='user')
                 return checkout
