@@ -49,16 +49,7 @@ with rabbitmq_conn() as conn:
         durable=True
     )
     queue.declare()
-
-    queue_payment_checkout = kombu.Queue(
-        name='queue-payment-checkout',
-        exchange='payment_checkout',
-        routing_key='payment_checkout_service',
-        channel=conn,
-        durablae=True
-    )
-    queue_payment_checkout.declare()
-
+    
 
 class Consumer(bootsteps.ConsumerStep):
     def get_consumers(self, channel):
