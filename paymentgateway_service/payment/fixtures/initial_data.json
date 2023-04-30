@@ -25,7 +25,17 @@
     "model": "payment.paymentmethod",
     "pk": "e0282812-d1b0-4585-99bf-6510497602ab",
     "fields": {
-      "name": "credit_card",
+      "name": "card",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  },
+
+  {
+    "model": "payment.paymentmethod",
+    "pk": "e0982812-d1b0-4585-99bf-6510497602ab",
+    "fields": {
+      "name": "cash",
       "created_at": "2023-01-01T00:01:00.000Z",
       "updated_at": "2023-01-01T00:01:00.000Z"
     }
