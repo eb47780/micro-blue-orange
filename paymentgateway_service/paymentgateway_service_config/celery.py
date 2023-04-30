@@ -3,7 +3,7 @@ import os
 
 from celery import Celery, bootsteps
 import kombu
-from django.db import transaction
+
 
 logger = logging.getLogger(__name__)
 

@@ -49,7 +49,7 @@ with rabbitmq_conn() as conn:
         durable=True
     )
     queue.declare()
-    
+
 
 class Consumer(bootsteps.ConsumerStep):
     def get_consumers(self, channel):
@@ -72,11 +72,12 @@ class Consumer(bootsteps.ConsumerStep):
                 del data['customer_id']
                 del data['address_id']
                 data['customer'] = ClientSerializer(customer).data
-                data['address'] = AddressSerializer(address).data 
+                data['address'] = AddressSerializer(address).data
                 _publish(message=data, routing_key='paymentgateway_service', exchange='payment')
         except Exception as e:
             logging.exception(e)
 
         message.ack()
+
 
 app.steps['consumer'].add(Consumer)
