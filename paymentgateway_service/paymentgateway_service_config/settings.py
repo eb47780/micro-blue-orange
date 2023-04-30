@@ -39,6 +39,11 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
+STRIPE_API_KEY = env('STRIPE_API_KEY')
+
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
