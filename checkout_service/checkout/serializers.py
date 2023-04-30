@@ -88,4 +88,3 @@ class CheckoutDetailSerializer(serializers.ModelSerializer):
 
     def status(self, obj):
         return model_to_dict(models.Status.objects.get(id=obj.status.id))
-
