@@ -65,7 +65,10 @@ class CheckoutConsumer(bootsteps.ConsumerStep):
         try:
             with transaction.atomic():
                 from checkout.models import Checkout, Status
-                checkout = Checkout.objects.filter(id=data['checkout'].id).first()
+                logging.info(data)
+                logging.info(data['checkout'])
+                checkout = data['checkout']
+                checkout = Checkout.objects.filter(id=checkout['id']).first()
                 status = Status.objects.filter(id=data['status_id']).first()
                 checkout.status = status
                 checkout.remote_id = data['remote_invoice_id']
