@@ -65,15 +65,13 @@ class CheckoutConsumer(bootsteps.ConsumerStep):
         try:
             with transaction.atomic():
                 from checkout.models import Checkout, Status
-                logging.info(data)
-                logging.info(data['checkout'])
                 checkout = data['checkout']
                 checkout = Checkout.objects.filter(id=checkout['id']).first()
                 status = Status.objects.filter(id=data['status_id']).first()
                 checkout.status = status
                 checkout.remote_id = data['remote_invoice_id']
                 checkout.save()
-                logger.info('Checkout Service Status Completed')
+                logger.info('Checkout Service Completed')
         except Exception as e:
             logger.exception(e)
 
