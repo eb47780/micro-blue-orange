@@ -62,16 +62,17 @@ class PaymentMethodConsumer(bootsteps.ConsumerStep):
         ]
 
     def handle_message(self, data, message):
+        from payment.process_payment import checkout_session
         try:
-            with transaction.atomic():
-                from payment.process_payment import simulate
-                remote_invoice_id = simulate()
-                data['remote_invoice_id'] = remote_invoice_id
-                data['status_id'] = 'e2182812-d1b0-4585-99bf-6510497602ab'
-                _publish(message=data, routing_key='checkout_service', exchange='checkout')
-                _publish(message=data, routing_key='payment_checkout_service', exchange='payment_checkout')
-                logger.info('')
+            remote_invoice_id = checkout_session(data)
+            data['remote_invoice_id'] = remote_invoice_id
+            data['status_id'] = 'e2182812-d1b0-4585-99bf-6510497602ab'
+            _publish(message=data, routing_key='checkout_service', exchange='checkout')
+            logger.info('')
         except Exception as e:
+            data['remote_invoice_id'] = None
+            data['status_id'] = 'e3182812-d1b0-4585-99bf-6510497602ab'
+            _publish(message=data, routing_key='checkout_service', exchange='checkout')
             logger.exception(e)
 
         message.ack()

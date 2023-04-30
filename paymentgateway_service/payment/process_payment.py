@@ -1,7 +1,9 @@
 import time
+import logging
 
 
-def simulate():
-    print('Processing Payment Simulation')
-    time.sleep(20)
+def checkout_session(data):
+    logging.warning(data)
+    logging.warning('Processing Payment Simulation')
+    time.sleep(10)
     return 'Remote Invoice Id Dummy'
