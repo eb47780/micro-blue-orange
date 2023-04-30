@@ -5,9 +5,6 @@ from celery import Celery, bootsteps
 import kombu
 from django.db import transaction
 
-from authcore.serializers import ClientSerializer, AddressSerializer
-from authcore.models import Customer, Address
-
 
 logger = logging.getLogger(__name__)
 
@@ -75,6 +72,8 @@ class Consumer(bootsteps.ConsumerStep):
         ]
 
     def handle_message(self, data, message):
+        from authcore.serializers import ClientSerializer, AddressSerializer
+        from authcore.models import Customer, Address
         try:
             with transaction.atomic():
                 customer = Customer.objects.filter(id=data['customer_id']).first()
