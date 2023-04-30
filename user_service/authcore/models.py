@@ -50,18 +50,3 @@ class Address(AutoCreateUpdateMixin):
 
     def __str__(self) -> str:
         return self.customer.email + ': ' + self.street + ' ' + self.street_number + ', ' + self.city + ' ' + self.zipcode
-
-
-class UserCheckout(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, related_name='customer_checkout')
-    address = models.ForeignKey(Address, on_delete=models.PROTECT, related_name='customer_address')
-    checkout_id = models.UUIDField(primary_key=False, null=False, editable=False)
-    payment_method_id = models.UUIDField(primary_key=False, null=False, editable=False)
-    status_id = models.UUIDField(primary_key=False, null=False, editable=True)
-
-    class Meta:
-        verbose_name = 'User Checkout'
-
-    def __str__(self) -> str:
-        return self.customer.email + ', ' + self.checkout_id
