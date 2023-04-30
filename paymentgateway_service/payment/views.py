@@ -1,14 +1,12 @@
 from django.http import HttpResponse
 from django.core.mail import send_mail
-from django.shortcuts import redirect
-from paymentgateway_service_config import settings
 from django.views.decorators.csrf import csrf_exempt
+from paymentgateway_service_config import settings
 import stripe
 import logging
 
 
-STRIPE_API_KEY = 'sk_test_51MQWBTHJ9GTHbZihDblfeNFToPV2rgYvzHiJ2GwuTJzrkROJ8nmkWcCYNapVagJlVsMm0WkUyFWPb0tZK7a0bDBp00QuS0Is2O'
-stripe.api_key = STRIPE_API_KEY
+stripe.api_key = settings.STRIPE_API_KEY
 
 
 @csrf_exempt

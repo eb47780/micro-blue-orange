@@ -1,13 +1,10 @@
 from payment.models import PaymentMethod
 from payment.serializers import PaymentMethodSerializer
-from django.shortcuts import redirect
-import logging
+from paymentgateway_service_config import settings
 import stripe
 
-#for now
-STRIPE_API_KEY = 'sk_test_51MQWBTHJ9GTHbZihDblfeNFToPV2rgYvzHiJ2GwuTJzrkROJ8nmkWcCYNapVagJlVsMm0WkUyFWPb0tZK7a0bDBp00QuS0Is2O'
-stripe.api_key = STRIPE_API_KEY
 
+stripe.api_key = settings.STRIPE_API_KEY
 DOMAIN = 'http://localhost:4200'
      
 
@@ -25,7 +22,6 @@ def checkout_session(data):
     
     line_items = []
     for item in checkout['items']:
-        logging.warning(item)
         data_passed = {
             'price_data': {
                 'currency': 'usd',
@@ -78,5 +74,4 @@ def checkout_session(data):
         receipt_email=customer['email'],
         )
     finalized_invoice = stripe.Invoice.pay(invoice['id'],)
-    logging.info(finalized_invoice)
     return finalized_invoice.hosted_invoice_url
