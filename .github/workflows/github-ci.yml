@@ -9,10 +9,6 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
 
-    - name: build
-      run: |
-        docker/build || docker/server
-
     - name: connection
       run: |
         docker run --network container:micro-blue-orange-database jwilder/dockerize -wait tcp://micro-blue-orange-database:5432 -timeout 500s -wait-retry-interval 5s

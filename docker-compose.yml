@@ -1,6 +1,13 @@
 version: "3.7"
 
 services:
+  stripe-cli:
+    image: stripe/stripe-cli
+    container_name: stripe-cli
+    command: "listen --api-key ${STRIPE_API_KEY} --device-name ${STRIPE_DEVICE_NAME} --forward-to payment-gateway-service:8000/api/webhook/"
+    env_file:
+      - stripe_cli.env
+
   user_service:
     build: user_service/.
     container_name: user-service

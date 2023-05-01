@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from django.views.decorators.csrf import csrf_exempt
 from paymentgateway_service_config import settings
 import stripe
@@ -36,11 +36,11 @@ def stripe_webhook(request):
         product = session['metadata']['product']
         address = session['metadata']['address']
 
-        send_mail(
+        msg = EmailMessage(
+          f'Thank you for making a purchase at Blue Orange. Here is/are the product/s you ordered {product} at address {address}',
           subject='Purchase at Blue Orange',
-          message=f'Thank you for making a purchase at Blue Orange. Here is/are the product/s you ordered {product} at address {address}',
-          recipient_list=[customer_email],
-          from_email="endritpb@gmail.com"
+          to=[customer_email]
         )
-
+        msg.send()
+    
     return HttpResponse(status=200)

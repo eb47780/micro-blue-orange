@@ -60,7 +60,7 @@ def checkout_session(data):
         email=data['customer']['email']
     )
 
-    if len(customer['data']) == 1:
+    if len(customer['data']) != 0:
         customer = stripe.Customer.retrieve(id=customer['data'][0]['id'])
     else:
         customer = stripe.Customer.create(
