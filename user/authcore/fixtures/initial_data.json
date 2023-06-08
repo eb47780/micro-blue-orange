@@ -1,0 +1,66 @@
+[
+  {
+    "model": "authcore.user",
+    "pk": "e5182812-d1b0-4585-99bf-6510497601ab",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "endritberisha",
+      "first_name": "Endrit",
+      "last_name": "Berisha",
+      "email": "endritberisha@microblueorange.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-01-01T00:00:00.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {
+    "model": "authcore.userclient",
+    "pk": "df8d851d-12e4-4020-a955-46294b8b4906",
+    "fields": {
+      "password": "pbkdf2_sha256$180000$YDGrT1pcKb4Y$ZXgiacltNEw55sWrPRlyQ5INNQx4zCzo3xiUw3qZ6Hs=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "endber",
+      "first_name": "",
+      "last_name": "",
+      "email": "endritpb@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-01-01T00:00:01.000Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+
+  {
+    "model": "authcore.customer",
+    "pk": "df8d851d-12e4-4020-a955-46294b8b4906",
+    "fields": {
+      "user": "df8d851d-12e4-4020-a955-46294b8b4906",
+      "phone": "+38349758152",
+      "email": "endritpb@gmail.com",
+      "name": "endber",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  },
+
+  {
+    "model": "authcore.address",
+    "pk": "df8d851d-12e4-4020-a955-46294b8b4905",
+    "fields": {
+      "customer": "df8d851d-12e4-4020-a955-46294b8b4906",
+      "street": "Agim Ramadani",
+      "street_number": "B1",
+      "city": "Prishtine",
+      "zipcode": "10000",
+      "created_at": "2023-01-01T00:01:00.000Z",
+      "updated_at": "2023-01-01T00:01:00.000Z"
+    }
+  }
+]
