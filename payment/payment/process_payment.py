@@ -15,47 +15,19 @@ def create_invoice(customer, amount, card):
         customer=customer['id'],
         amount=amount,
         invoice=invoice.id,
+        description=f"Invoice Payment for {customer['name']}"
     )
     finalized_invoice = stripe.Invoice.pay(invoice['id'], source=card)
     return finalized_invoice
 
 
 def checkout_session(data):
-    # checkout = data['checkout']
-    # payment_method = PaymentMethodSerializer(PaymentMethod.objects.filter(id=data['payment_method_id']).first()).data
     address = {
         'city': data['address']['city'],
         'line1': data['address']['street'] + ' ' + data['address']['street_number'],
         'postal_code': data['address']['zipcode']
     }
-    # metadata = {}
-    # metadata['customer'] = data['customer']['email']
-    # metadata['address'] = data['address']['street'] + ' ' + data['address']['street_number'] + ', ' + data['address']['city']
-
-    # line_items = []
-    # for item in checkout['items']:
-    #     data_passed = {
-    #         'price_data': {
-    #             'currency': 'usd',
-    #             'unit_amount': int(float(item['price']))*100,
-    #             'product_data': {
-    #                 'name': item['title'],
-    #             },
-    #         },
-    #         'quantity': int(item['quantity'])
-    #     }
-    #     metadata['product'] = item['title']
-    #     line_items.append(data_passed)
-
-    # stripe.checkout.Session.create(
-    #     payment_method_types=[payment_method['name']],
-    #     line_items=line_items,
-    #     mode='payment',
-    #     success_url=DOMAIN + '/success',
-    #     cancel_url=DOMAIN + '/failed',
-    #     metadata=metadata
-    # )
-
+    
     customer = stripe.Customer.list(
         email=data['customer']['email']
     )
@@ -72,5 +44,4 @@ def checkout_session(data):
 
     card = stripe.Customer.create_source(customer['id'], source='tok_visa')
     finalized_invoice = create_invoice(customer, int(float(data['checkout']['total']))*100, card)
-    
     return finalized_invoice.hosted_invoice_url
