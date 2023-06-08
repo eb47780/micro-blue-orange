@@ -3,6 +3,5 @@ set +e
 
 docker-compose down -v --remove-orphans
 wait
-echo "Building: Microservices, Databases, AMQP, Celery Workers"
 docker-compose build # Set up the Docker containers
-echo 'Finished: docker-compose build'
+echo 'build finished successfully for micro-blue orange!'

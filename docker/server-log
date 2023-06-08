@@ -3,4 +3,3 @@
 set +e
 
 docker-compose up
-echo "Microservies are up"

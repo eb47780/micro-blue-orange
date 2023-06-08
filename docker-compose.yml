@@ -9,12 +9,12 @@ services:
       - stripe_cli.env
 
   user_service:
-    build: user_service/.
+    build: user/.
     container_name: user-service
-    working_dir: /usr/src/user_service
-    entrypoint: user_service/user_entrypoint.sh
+    working_dir: /usr/src
+    entrypoint: user/user_entrypoint.sh
     volumes:
-      - .:/usr/src/user_service
+      - .:/usr/src
     ports:
       - "8001:8000"
     depends_on:
@@ -24,12 +24,12 @@ services:
       - default
 
   product_service:
-    build: product_service/.
+    build: product/.
     container_name: "product-service"
-    working_dir: /usr/src/product_service
-    entrypoint: product_service/product_entrypoint.sh
+    working_dir: /usr/src
+    entrypoint: product/product_entrypoint.sh
     volumes:
-      - .:/usr/src/product_service
+      - .:/usr/src
     ports:
       - "8002:8000"
     depends_on:
@@ -39,12 +39,12 @@ services:
       - default
 
   paymentgateway_service:
-    build: paymentgateway_service/.
+    build: payment/.
     container_name: "payment-gateway-service"
-    working_dir: /usr/src/paymentgateway_service
-    entrypoint: paymentgateway_service/payment_entrypoint.sh
+    working_dir: /usr/src
+    entrypoint: payment/payment_entrypoint.sh
     volumes:
-      - .:/usr/src/paymentgateway_service
+      - .:/usr/src
     ports:
       - "8003:8000"
     depends_on:
@@ -54,12 +54,12 @@ services:
       - default
 
   checkout_service:
-    build: checkout_service/.
+    build: checkout/.
     container_name: "checkout-service"
-    working_dir: /usr/src/checkout_service
-    entrypoint: checkout_service/checkout_entrypoint.sh
+    working_dir: /usr/src
+    entrypoint: checkout/checkout_entrypoint.sh
     volumes:
-      - .:/usr/src/checkout_service
+      - .:/usr/src
     ports:
       - "8004:8000"
     depends_on:
@@ -107,10 +107,10 @@ services:
       - default
 
   user_worker:
-    build: user_service/.
+    build: user/.
     container_name: user-worker
     restart: on-failure
-    entrypoint: /usr/src/user_service/user_worker.sh
+    entrypoint: /usr/src/user/user_worker.sh
     volumes:
       - .:/usr/src
     depends_on:
@@ -122,10 +122,10 @@ services:
       - default
 
   payment_worker:
-    build: paymentgateway_service/.
+    build: payment/.
     container_name: payment-worker
     restart: on-failure
-    entrypoint: /usr/src/paymentgateway_service/payment_worker.sh
+    entrypoint: /usr/src/payment/payment_worker.sh
     volumes:
       - .:/usr/src
     depends_on:
@@ -137,10 +137,10 @@ services:
       - default
   
   checkout_worker:
-    build: checkout_service/.
+    build: checkout/.
     container_name: checkout-worker
     restart: on-failure
-    entrypoint: /usr/src/checkout_service/checkout_worker.sh
+    entrypoint: /usr/src/checkout/checkout_worker.sh
     volumes:
       - .:/usr/src
     depends_on:

@@ -63,8 +63,7 @@ fi
 
 if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
 
-  echo "Building..."
-  echo "Might take some minutes! Please stand by..."
+  echo "build started for micro-blue-orange... (might take some minutes!)"
   sleep 5
   
   DATE=`date +%Y%m%d-%H%M%S-%3N`
