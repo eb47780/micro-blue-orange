@@ -9,11 +9,15 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
 
-    - name: connection
+    - name: build
+      run: |
+        docker-compose up -d
+
+    - name: postgres connection
       run: |
         docker run --network container:micro-blue-orange-database jwilder/dockerize -wait tcp://micro-blue-orange-database:5432 -timeout 500s -wait-retry-interval 5s
 
     - name: linter
       run: |
         pip install flake8
-        flake8 user_service product_service paymentgateway_service checkout_service
+        flake8 .
