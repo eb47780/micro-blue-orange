@@ -20,7 +20,7 @@ def create_invoice(customer, items, payment_method):
         )
 
     if payment_method == 'card':
-        card = stripe.Customer.create_source(customer['id'], source='tok_visa')        
+        card = stripe.Customer.create_source(customer['id'], source='tok_visa')
         finalized_invoice = stripe.Invoice.pay(invoice['id'], source=card)
         return finalized_invoice
 
@@ -28,13 +28,13 @@ def create_invoice(customer, items, payment_method):
 def checkout_session(data):
     time.sleep(10)
     payment_method = PaymentMethodSerializer(PaymentMethod.objects.filter(id=data['payment_method_id']).first()).data
-    
-    items = {'description': [], 'unit_amount':[], 'quantity':[]}
-    for item in  data['checkout']['items']:
+
+    items = {'description': [], 'unit_amount': [], 'quantity': []}
+    for item in data['checkout']['items']:
         items['description'].append(item['title'])
         items['unit_amount'].append(int(float(item['price']))*100)
         items['quantity'].append(int(item['quantity']))
-    
+
     address = {
         'city': data['address']['city'],
         'line1': data['address']['street'] + ' ' + data['address']['street_number'],
@@ -63,5 +63,5 @@ def checkout_session(data):
         )
 
     finalized_invoice = create_invoice(customer, items, payment_method['name'])
-    
+
     return finalized_invoice.hosted_invoice_url
