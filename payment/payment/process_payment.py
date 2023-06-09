@@ -41,5 +41,5 @@ def checkout_session(data):
 
     card = stripe.Customer.create_source(customer['id'], source='tok_visa')
     finalized_invoice = create_invoice(customer, int(float(data['checkout']['total']))*100, card)
-    
+
     return finalized_invoice.hosted_invoice_url
