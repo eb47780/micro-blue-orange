@@ -42,5 +42,5 @@ def stripe_webhook(request):
           to=[customer_email]
         )
         msg.send()
-    
+
     return HttpResponse(status=200)

@@ -1,8 +1,5 @@
-from payment.models import PaymentMethod
-from payment.serializers import PaymentMethodSerializer
 from config import settings
 import stripe
-import logging
 
 
 stripe.api_key = settings.STRIPE_API_KEY
@@ -27,7 +24,7 @@ def checkout_session(data):
         'line1': data['address']['street'] + ' ' + data['address']['street_number'],
         'postal_code': data['address']['zipcode']
     }
-    
+
     customer = stripe.Customer.list(
         email=data['customer']['email']
     )
