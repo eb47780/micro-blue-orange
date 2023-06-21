@@ -1,72 +1,72 @@
 #!/bin/bash
 set -e
 
-# This script verify docker and builds the Docker container
+# # This script verify docker and builds the Docker container
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+# if [[ "$OSTYPE" == "darwin"* ]]; then
 
-  if hash docker 2>/dev/null; then
-    CONTAINER_RUNTIME=docker
-  else
+#   if hash docker 2>/dev/null; then
+#     CONTAINER_RUNTIME=docker
+#   else
     
-    echo "Docker was not found in your system"
-    echo "Please install Docker:"
-    echo "https://docs.docker.com/docker-for-mac/install/"
+#     echo "Docker was not found in your system"
+#     echo "Please install Docker:"
+#     echo "https://docs.docker.com/docker-for-mac/install/"
 
-    exit 1
+#     exit 1
 
-  fi
+#   fi
 
-  if hash docker-compose 2>/dev/null; then
-    CONTAINER_COMPOSE=docker-compose
-  else
+#   if hash docker-compose 2>/dev/null; then
+#     CONTAINER_COMPOSE=docker-compose
+#   else
 
-    echo "Docker-Compose was not found in your system"
-    echo "Please install Docker:"
-    echo "https://docs.docker.com/docker-for-mac/install/"
+#     echo "Docker-Compose was not found in your system"
+#     echo "Please install Docker:"
+#     echo "https://docs.docker.com/docker-for-mac/install/"
 
-    exit 1
+#     exit 1
 
-  fi
+#   fi
 
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+# elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
-  if hash docker 2>/dev/null; then
-    CONTAINER_RUNTIME=docker
-  else
+#   if hash docker 2>/dev/null; then
+#     CONTAINER_RUNTIME=docker
+#   else
 
-    echo "Docker was not found in your system"
-    echo "Please install Docker:"
-    echo "https://docs.docker.com/engine/install/ubuntu/"
+#     echo "Docker was not found in your system"
+#     echo "Please install Docker:"
+#     echo "https://docs.docker.com/engine/install/ubuntu/"
 
-    exit 1
+#     exit 1
 
-  fi
+#   fi
 
-  if hash docker 2>/dev/null; then
-    CONTAINER_COMPOSE=docker-compose
-  else
+#   if hash docker 2>/dev/null; then
+#     CONTAINER_COMPOSE=docker-compose
+#   else
 
-    echo "Error! We could not find ${CONTAINER_COMPOSE} on your system!"
-    echo "Please install podman-compose:"
-    echo "https://github.com/containers/podman-compose#installation"
+#     echo "Error! We could not find ${CONTAINER_COMPOSE} on your system!"
+#     echo "Please install podman-compose:"
+#     echo "https://github.com/containers/podman-compose#installation"
 
-    exit 1
+#     exit 1
 
-  fi
+#   fi
 
-else
+# else
 
-  echo "This Operating System is not supported yet!"
+#   echo "This Operating System is not supported yet!"
 
-fi
+# fi
 
-if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
+# if [ "${CONTAINER_RUNTIME}" = "docker" ]; then
 
-  echo "build started for micro-blue-orange... (might take some minutes!)"
-  sleep 5
+echo "build started for micro-blue-orange... (might take some minutes!)"
+sleep 5
+
+DATE=`date +%Y%m%d-%H%M%S-%3N`
+docker/build-log 2>&1 | tee log/build-$DATE.log
   
-  DATE=`date +%Y%m%d-%H%M%S-%3N`
-  docker/build-log 2>&1 | tee log/build-$DATE.log
-  
-fi
+# fi

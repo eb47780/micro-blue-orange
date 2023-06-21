@@ -9,7 +9,7 @@ services:
       - stripe_cli.env
 
   user_service:
-    build: user/.
+    build: .
     container_name: user-service
     working_dir: /usr/src
     entrypoint: user/user_entrypoint.sh
@@ -24,7 +24,7 @@ services:
       - default
 
   product_service:
-    build: product/.
+    build: .
     container_name: "product-service"
     working_dir: /usr/src
     entrypoint: product/product_entrypoint.sh
@@ -39,7 +39,7 @@ services:
       - default
 
   paymentgateway_service:
-    build: payment/.
+    build: .
     container_name: "payment-gateway-service"
     working_dir: /usr/src
     entrypoint: payment/payment_entrypoint.sh
@@ -54,7 +54,7 @@ services:
       - default
 
   checkout_service:
-    build: checkout/.
+    build: .
     container_name: "checkout-service"
     working_dir: /usr/src
     entrypoint: checkout/checkout_entrypoint.sh
@@ -107,7 +107,7 @@ services:
       - default
 
   user_worker:
-    build: user/.
+    build: .
     container_name: user-worker
     restart: on-failure
     entrypoint: /usr/src/user/user_worker.sh
@@ -122,7 +122,7 @@ services:
       - default
 
   payment_worker:
-    build: payment/.
+    build: .
     container_name: payment-worker
     restart: on-failure
     entrypoint: /usr/src/payment/payment_worker.sh
@@ -137,7 +137,7 @@ services:
       - default
   
   checkout_worker:
-    build: checkout/.
+    build: .
     container_name: checkout-worker
     restart: on-failure
     entrypoint: /usr/src/checkout/checkout_worker.sh
